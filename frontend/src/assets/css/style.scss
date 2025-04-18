@@ -82,13 +82,47 @@ h5 {
 h6 {
   font-size: 0.87rem;
 }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: inherit;
+}
 p {
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-family: "Nunito", sans-serif;
 }
 span {
   font-size: 0.875rem;
   font-family: "Roboto", sans-serif;
+}
+.btn-primary {
+  background-color: $primary_color;
+  border: 1px solid $primary_color;
+  font-size: 1em;
+  font-weight: 500;
+  text-transform: uppercase;
+  &:hover {
+    background-color: $secondary_color;
+    border: 1px solid $secondary_color;
+  }
+}
+.btn-secondary {
+  background-color: $secondary_color;
+  border: 1px solid $secondary_color;
+  font-size: 1em;
+  font-weight: 500;
+  text-transform: uppercase;
+  &:hover {
+    background-color: $primary_color;
+    border: 1px solid $primary_color;
+  }
 }
 
 header {
@@ -109,6 +143,28 @@ header {
       text-transform: uppercase;
       font-weight: 500;
       margin-left: 20px;
+      transition: all linear 0.3s;
     }
+    .nav_link:hover {
+      color: #fe538d;
+    }
+  }
+}
+
+.banner {
+  background-image: url("");
+  background: linear-gradient(to right, #000c, #0000),
+    url("assets/images/hero.jpg");
+  padding: 150px 0;
+  h5 {
+    color: #ffb703;
+    font-size: 1.5em;
+    font-weight: 500;
+  }
+  h1 {
+    color: $bs-white;
+  }
+  p {
+    color: $bs-white;
   }
 }
