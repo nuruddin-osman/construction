@@ -135,6 +135,15 @@ span {
     border: 1px solid $primary_color;
   }
 }
+.section_sub_title {
+  color: #fe538d;
+  font-size: 1.2em;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.section_title {
+}
 
 header {
   nav {
@@ -201,6 +210,39 @@ header {
       a {
         text-decoration: none;
         color: $bs-primary-bg-subtle;
+      }
+    }
+  }
+}
+
+.our_services {
+  .card_head {
+    height: 420px;
+    border: none;
+    position: relative;
+    &:hover {
+      .card_body {
+        transform: translateY(0);
+        .service_content {
+          opacity: 1;
+        }
+      }
+    }
+    .card_image {
+      height: 100%;
+      border-radius: 40px;
+    }
+    .card_body {
+      color: #fff;
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      transform: translateY(80%);
+      transition: all 0.4s ease-in-out;
+      .service_content {
+        transition: all 0.4s ease-in-out;
+        opacity: 0;
       }
     }
   }

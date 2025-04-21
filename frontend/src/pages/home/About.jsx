@@ -5,7 +5,7 @@ const About = () => {
   return (
     <div className="about">
       <div className="container">
-        <h4 className="text-center">About us</h4>
+        <h4 className="text-center section_sub_title">About us</h4>
         <div className="row mt-5">
           <div className="col-md-6">
             <div className="w-100">
@@ -13,7 +13,9 @@ const About = () => {
             </div>
           </div>
           <div className="col-md-6">
-            <h2>Crafting structures that last a lifetime</h2>
+            <h2 className="section_title">
+              Crafting structures that last a lifetime
+            </h2>
             <p>
               Designing structures that stand the test of time involves a
               seamless blend of cutting-edge materials, durable design, ongoing
