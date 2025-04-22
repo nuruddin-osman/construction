@@ -220,6 +220,7 @@ header {
     height: 420px;
     border: none;
     position: relative;
+    overflow: hidden;
     &:hover {
       .card_body {
         transform: translateY(0);
@@ -228,6 +229,24 @@ header {
         }
       }
     }
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      border-radius: 40px;
+      z-index: 111;
+      background: linear-gradient(
+        180deg,
+        #d9d9d900,
+        #d9d9d900 13.02%,
+        #00000082 42.5%,
+        #000000a1 70%,
+        #000
+      );
+    }
     .card_image {
       height: 100%;
       border-radius: 40px;
@@ -235,6 +254,7 @@ header {
     .card_body {
       color: #fff;
       position: absolute;
+      z-index: 222;
       left: 20px;
       right: 20px;
       bottom: 20px;

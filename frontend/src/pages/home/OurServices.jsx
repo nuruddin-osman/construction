@@ -101,6 +101,9 @@ const OurServices = () => {
           </div>
         </div>
       </div>
+      <div className="text-center">
+        <Button variant="primary">View more</Button>
+      </div>
     </div>
   );
 };

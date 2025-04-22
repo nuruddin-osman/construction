@@ -5,6 +5,7 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import "./assets/css/style.scss";
 import Home from "./pages/home/Index";
+import OurServices from "./pages/home/OurServices";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/services" element={<OurServices />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
     </>
