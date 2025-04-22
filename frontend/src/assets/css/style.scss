@@ -216,6 +216,9 @@ header {
 }
 
 .our_services {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+
   .card_head {
     height: 420px;
     border: none;
@@ -264,6 +267,15 @@ header {
         transition: all 0.4s ease-in-out;
         opacity: 0;
       }
+    }
+  }
+}
+
+.choose_us {
+  .card_head {
+    border-radius: 40px;
+    .card_icon {
+      padding: 16px;
     }
   }
 }

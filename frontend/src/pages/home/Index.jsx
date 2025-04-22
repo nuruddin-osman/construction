@@ -4,6 +4,7 @@ import Banner from "./Banner";
 import About from "./About";
 import Footer from "../../components/footer/Footer";
 import OurServices from "./OurServices";
+import ChooseUs from "./ChooseUs";
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
       <Banner />
       <About />
       <OurServices />
+      <ChooseUs />
       <Footer />
     </div>
   );
