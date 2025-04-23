@@ -1,11 +1,11 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes } from "react-router-dom";
-import About from "./components/About";
 import Contact from "./components/Contact";
 import "./assets/css/style.scss";
 import Home from "./pages/home/Index";
 import OurServices from "./pages/home/OurServices";
+import About from "./pages/about/Index";
 
 const App = () => {
   return (

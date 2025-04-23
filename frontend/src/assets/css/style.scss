@@ -344,3 +344,21 @@ header {
     }
   }
 }
+
+.about_banner {
+  background-image: url("");
+  background: linear-gradient(to right, #000c, #0000),
+    url("assets/images/hero.jpg");
+  padding: 120px 0;
+  h5 {
+    color: $secondary_color;
+    font-size: 1.5em;
+    font-weight: 500;
+  }
+  h1 {
+    color: $bs-white;
+  }
+  p {
+    color: $bs-white;
+  }
+}
