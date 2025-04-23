@@ -3,12 +3,12 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import ServicesImg from "../../../public/assets/images/construction2.jpg";
 
-const OurServices = () => {
+const Projects = () => {
   return (
     <div className="our_services py-5">
       <div className="text-center">
-        <h4 className="section_sub_title">our services</h4>
-        <h2 className="">Our construction services</h2>
+        <h4 className="section_sub_title">our projects</h4>
+        <h2 className="">Discover our diverse range of projects</h2>
         <p>
           We offer a diverse array of construction services, spanning
           residential, commercial, and industrial projects.
@@ -24,7 +24,7 @@ const OurServices = () => {
                 src={ServicesImg}
               />
               <Card.Body className="card_body">
-                <Card.Title>Civil Construction</Card.Title>
+                <Card.Title>Kanpur Project 2025</Card.Title>
                 <div className="service_content">
                   <Card.Text className="">
                     Civil construction is a core sector within the construction
@@ -45,7 +45,7 @@ const OurServices = () => {
                 src={ServicesImg}
               />
               <Card.Body className="card_body">
-                <Card.Title>Civil Construction</Card.Title>
+                <Card.Title>Delhi Project 2025</Card.Title>
                 <div className="service_content">
                   <Card.Text className="">
                     Civil construction is a core sector within the construction
@@ -66,7 +66,7 @@ const OurServices = () => {
                 src={ServicesImg}
               />
               <Card.Body className="card_body">
-                <Card.Title>Civil Construction</Card.Title>
+                <Card.Title>Goa Project 2025</Card.Title>
                 <div className="service_content">
                   <Card.Text className="">
                     Civil construction is a core sector within the construction
@@ -87,7 +87,7 @@ const OurServices = () => {
                 src={ServicesImg}
               />
               <Card.Body className="card_body">
-                <Card.Title>Civil Construction</Card.Title>
+                <Card.Title>Lucknow Project 2025</Card.Title>
                 <div className="service_content">
                   <Card.Text className="">
                     Civil construction is a core sector within the construction
@@ -108,4 +108,4 @@ const OurServices = () => {
   );
 };
 
-export default OurServices;
+export default Projects;

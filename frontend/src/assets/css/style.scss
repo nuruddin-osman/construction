@@ -224,6 +224,7 @@ header {
     border: none;
     position: relative;
     overflow: hidden;
+    margin-bottom: 10px;
     &:hover {
       .card_body {
         transform: translateY(0);
@@ -274,6 +275,7 @@ header {
 .choose_us {
   .card_head {
     border-radius: 40px;
+    margin-bottom: 10px;
     .card_icon {
       padding: 16px;
     }

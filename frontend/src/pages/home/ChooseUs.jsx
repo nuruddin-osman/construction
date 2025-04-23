@@ -11,8 +11,9 @@ const ChooseUs = () => {
         <h2 className="">Discover our wide variety of projects.</h2>
         <p>
           Created in close partnership with our clients and collaborators, this
-          approach merges industry expertise, decades of experience, innovation,
-          and flexibility to consistently deliver excellence.
+          approach merges industry expertise,
+          <br /> decades of experience, innovation, and flexibility to
+          consistently deliver excellence.
         </p>
       </div>
       <div className="container py-5">
