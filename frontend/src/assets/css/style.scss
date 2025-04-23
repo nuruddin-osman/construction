@@ -105,6 +105,10 @@ h6 {
   line-height: 1.2;
   color: inherit;
 }
+a {
+  text-decoration: none;
+  color: $text_color;
+}
 p {
   font-size: 1.2rem;
   font-family: "Nunito", sans-serif;
@@ -315,6 +319,28 @@ header {
     padding: 25px 25px 50px 25px;
     .swiper-pagination-bullet-active {
       background-color: $secondary_color;
+    }
+  }
+}
+.blog {
+  .blog_card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 40px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    .blog_img {
+      transition: transform 0.3s ease;
+    }
+    .blog_link {
+      color: inherit;
+      transition: 0.3s all ease-in-out;
+      &:hover {
+        color: $primary_color;
+      }
     }
   }
 }
