@@ -3,6 +3,8 @@ import Navbars from "../../components/navbar/Navbar";
 import Banner from "./Banner";
 import { default as AboutCommon } from "../home/About";
 import Team from "./Team";
+import Testimonials from "../home/Testimonials";
+import Footer from "../../components/footer/Footer";
 
 const About = () => {
   return (
@@ -11,6 +13,8 @@ const About = () => {
       <Banner />
       <AboutCommon />
       <Team />
+      <Testimonials />
+      <Footer />
     </>
   );
 };
