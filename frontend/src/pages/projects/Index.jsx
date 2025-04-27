@@ -11,7 +11,7 @@ const Project = () => {
       <Banner
         sub_heading="Quality. Integrity. Value."
         heading="Projects"
-        para="We excel at transforming visions into reality through outstanding craftsmanship and precise."
+        para="We excel at transforming visions into reality <br/> through outstanding craftsmanship and precise."
       />
       <Projects />
       <Footer />
