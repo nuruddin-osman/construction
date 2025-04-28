@@ -27,7 +27,7 @@ const Navbars = () => {
             <Nav.Link className="nav_link" href="/blogs">
               Blogs
             </Nav.Link>
-            <Nav.Link className="nav_link" href="/contact">
+            <Nav.Link className="nav_link" href="/contacts">
               Contact Us
             </Nav.Link>
           </Nav>
