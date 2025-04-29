@@ -28,11 +28,28 @@ const Testimonials = () => {
           <Swiper
             modules={[Navigation, Pagination, Scrollbar, A11y]}
             spaceBetween={50}
-            slidesPerView={3}
+            slidesPerView={1}
             pagination={{ clickable: true }}
             // navigation
             onSlideChange={() => console.log("slide change")}
             onSwiper={(swiper) => console.log(swiper)}
+            breakpoints={{
+              // when window width is >= 576px
+              576: {
+                slidesPerView: 2,
+                spaceBetween: 30,
+              },
+              // when window width is >= 768px
+              768: {
+                slidesPerView: 2,
+                spaceBetween: 40,
+              },
+              // when window width is >= 992px
+              992: {
+                slidesPerView: 3,
+                spaceBetween: 50,
+              },
+            }}
           >
             <SwiperSlide>
               <Card className="card_head shadow">
