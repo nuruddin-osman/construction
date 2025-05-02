@@ -10,6 +10,8 @@ import Project from "./pages/projects/Index";
 import Blogs from "./pages/blogs/Index";
 import Contacts from "./pages/contacts/Index";
 import Login from "./pages/login/Index";
+import { ToastContainer } from "react-toastify";
+import Dashboard from "./backend/dashboard/Index";
 
 const App = () => {
   return (
@@ -22,7 +24,9 @@ const App = () => {
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/admin/login" element={<Login />} />
+        <Route path="/admin/dashboard" element={<Dashboard />} />
       </Routes>
+      <ToastContainer />
     </>
   );
 };

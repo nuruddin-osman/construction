@@ -2,16 +2,53 @@ import React from "react";
 import Navbars from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const res = await fetch("http://127.0.0.1:8000/api/authenticate", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await res.json();
+    if (result.status == true) {
+      toast.success("Login successfull", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      const userInfo = { id: result.id, token: result.token };
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
+      //   localStorage.setItem("userInfo", JSON.stringify(result));
+      navigate("/admin/dashboard");
+    } else {
+      toast.warn("User credential error", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   return (
