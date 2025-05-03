@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navbars from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../backend/auth/AuthContext";
 
 const Login = () => {
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const {
     register,
@@ -34,6 +36,7 @@ const Login = () => {
         theme: "light",
       });
       const userInfo = { id: result.id, token: result.token };
+      login(userInfo);
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
       //   localStorage.setItem("userInfo", JSON.stringify(result));
       navigate("/admin/dashboard");

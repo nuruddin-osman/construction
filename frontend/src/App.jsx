@@ -12,6 +12,7 @@ import Contacts from "./pages/contacts/Index";
 import Login from "./pages/login/Index";
 import { ToastContainer } from "react-toastify";
 import Dashboard from "./backend/dashboard/Index";
+import RequiredAuth from "./components/common/RequiredAuth";
 
 const App = () => {
   return (
@@ -24,7 +25,14 @@ const App = () => {
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/admin/login" element={<Login />} />
-        <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <RequiredAuth>
+              <Dashboard />
+            </RequiredAuth>
+          }
+        />
       </Routes>
       <ToastContainer />
     </>
