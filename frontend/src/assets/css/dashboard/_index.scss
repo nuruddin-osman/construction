@@ -1,2 +1,16 @@
 .dashboard {
+  .dashboard_wrapper {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    .sidebar {
+      .sidebar_menu {
+        .items {
+          width: 100%;
+          padding: 15px 20px;
+          display: inline-block;
+          border-bottom: 1px solid rgba(128, 128, 128, 0.236);
+        }
+      }
+    }
+  }
 }
