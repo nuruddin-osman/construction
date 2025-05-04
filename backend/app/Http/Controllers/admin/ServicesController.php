@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\services;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
@@ -123,6 +124,7 @@ class ServicesController extends Controller
 
         //temp image save
         if ($request->imageId > 0) {
+            $oldImage = $services->image;
             $temp_img = TempImage::find($request->imageId);
             if ($temp_img != null) {
                 $extArray = explode('.',$temp_img->name);
@@ -147,9 +149,15 @@ class ServicesController extends Controller
 
                 $services->image = $fileName;
                 $services->save();
-        
+
+
+                if ($oldImage != '') {
+                    File::delete(public_path('uploads/services/large/'.$oldImage));
+                    File::delete(public_path('uploads/services/small/'.$oldImage));
+                }
             }
-        }
+        } 
+
 
         return response()->json([
             'status'=> true,
