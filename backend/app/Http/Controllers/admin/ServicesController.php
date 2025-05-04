@@ -4,9 +4,13 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\services;
+use App\Models\TempImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class ServicesController extends Controller
 {
@@ -117,6 +121,36 @@ class ServicesController extends Controller
         $services->status = $request->status;
         $services->save();
 
+        //temp image save
+        if ($request->imageId > 0) {
+            $temp_img = TempImage::find($request->imageId);
+            if ($temp_img != null) {
+                $extArray = explode('.',$temp_img->name);
+                $ext = last($extArray);
+                $fileName = strtotime('now').$services->id.'.'.$ext;
+
+                //create large thumbnail
+                $sourcePath = public_path('uploads/temp/'.$temp_img->name);
+
+                $destinationPath = public_path('uploads/services/large/'.$fileName);
+                $manager = new ImageManager(Driver::class);
+                $image = $manager->read($sourcePath);
+                $image->scaleDown(1200);
+                $image->save($destinationPath);
+            
+                //create small thumbnail
+                $destinationPath = public_path('uploads/services/small/'.$fileName);
+                $manager = new ImageManager(Driver::class);
+                $image = $manager->read($sourcePath);
+                $image->coverDown(500,600);
+                $image->save($destinationPath);
+
+                $services->image = $fileName;
+                $services->save();
+        
+            }
+        }
+
         return response()->json([
             'status'=> true,
             'data'=> $services
@@ -138,8 +172,7 @@ class ServicesController extends Controller
         $services->delete();
         return response()->json([
             'status'=> true,
-            'data'=> $services,
-            'message'=> 'services update success'
+            'message'=> 'services delete success'
         ]);
     }
 }
