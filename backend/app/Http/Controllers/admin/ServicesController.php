@@ -74,7 +74,6 @@ class ServicesController extends Controller
         return response()->json([
             'status'=> true,
             'data'=> $services,
-            'message'=> 'services update success'
         ]);
     }
 
@@ -120,15 +119,27 @@ class ServicesController extends Controller
 
         return response()->json([
             'status'=> true,
-            'message'=> 'services update success'
+            'data'=> $services
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(services $services)
+    public function destroy($id)
     {
-        //
+        $services = Services::find($id);
+        if ($services == null) {
+            return response()->json([
+                'status'=>false,
+                'message'=>'services in not found'
+            ]);
+        }
+        $services->delete();
+        return response()->json([
+            'status'=> true,
+            'data'=> $services,
+            'message'=> 'services update success'
+        ]);
     }
 }
