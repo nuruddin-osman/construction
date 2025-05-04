@@ -18,5 +18,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Servicces route
     Route::post('/services', [ServicesController::class, 'store']);
+    Route::get('/services', [ServicesController::class, 'index']);
 
 });
