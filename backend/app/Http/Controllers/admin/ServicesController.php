@@ -15,7 +15,6 @@ class ServicesController extends Controller
      */
     public function index()
     {
-        echo('hello');
         $services = Services::orderBy('created_at','DESC')->get();
         return response()->json([
             'status'=>true,
@@ -63,7 +62,7 @@ class ServicesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(services $services)
+    public function show($id)
     {
         //
     }
@@ -79,9 +78,39 @@ class ServicesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, services $services)
+    public function update(Request $request, $id)
     {
-        //
+        $services = Services::find($id);
+
+        if ($services == null) {
+            return response()->json([
+                'status'=>false,
+                'message'=>'services in not found'
+            ]);
+        }
+
+        $validation = Validator::make($request->all(),[
+            'title'=>'required',
+            'slug'=>'required|unique:services,slug,'.$id.',id'
+        ]);
+        if ($validation->fails()) {
+            return response()->json([
+                'status'=>false,
+                'errors'=>$validation->errors()
+            ]);
+        }
+
+        $services->title = $request->title;
+        $services->slug = Str::slug($request->slug);
+        $services->short_desc = $request->short_desc;
+        $services->description = $request->description;
+        $services->status = $request->status;
+        $services->save();
+
+        return response()->json([
+            'status'=> true,
+            'message'=> 'services update success'
+        ]);
     }
 
     /**

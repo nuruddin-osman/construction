@@ -21,19 +21,20 @@ class TempImageController extends Controller
             'errors'=>$validation->errors('image')
            ]);
         }
+        //ইমেজ সেভ ও ডেটাবেসে ইনসার্ট
         $image = $request->image;
         $ext = $image->getClientOriginalExtension();
         $imageName = strtotime('now').'.'.$ext;
-
+        //TempImage মডেলে সেই ফাইলের নাম সেভ করা হচ্ছে।
         $model = new TempImage();
         $model->name = $imageName;
         $model->save();
-
+        //ইমেজটি public/uploads/temp ফোল্ডারে মুভ করে রাখা হচ্ছে।
         $image_path = public_path('uploads/temp');
         $image->move($image_path,$imageName);
 
 
-//thumbnail image
+        //Thumbnail তৈরির কাজ
         $source_path = public_path('uploads/temp/'.$imageName);
         $destination_path = public_path('uploads/temp/thumb/'.$imageName);
 
