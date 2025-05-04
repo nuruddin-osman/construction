@@ -64,7 +64,18 @@ class ServicesController extends Controller
      */
     public function show($id)
     {
-        //
+        $services = Services::find($id);
+        if ($services == null) {
+            return response()->json([
+                'status'=>false,
+                'message'=>'services in not found'
+            ]);
+        }
+        return response()->json([
+            'status'=> true,
+            'data'=> $services,
+            'message'=> 'services update success'
+        ]);
     }
 
     /**

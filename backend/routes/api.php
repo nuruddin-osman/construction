@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/services', [ServicesController::class, 'store']);
     Route::get('/services', [ServicesController::class, 'index']);
     Route::put('/services/{id}', [ServicesController::class, 'update']);
-
+    Route::get('/services/{id}', [ServicesController::class, 'show']);
 
     //image uploads route
     Route::post('/temp-image', [TempImageController::class, 'store']);
