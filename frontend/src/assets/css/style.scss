@@ -2,6 +2,7 @@
 
 @import "./login/index";
 @import "./dashboard/index";
+@import "./dashboard/services/index";
 
 $primary_color: #fe538d;
 $secondary_color: #ffb703;
@@ -115,6 +116,7 @@ a {
 ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 p {
   font-size: 1.2rem;
@@ -135,6 +137,20 @@ span {
     border: 1px solid $secondary_color;
   }
 }
+.btn-small {
+  background-color: $primary_color;
+  border: 1px solid $primary_color;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background-color: $secondary_color;
+    border: 1px solid $secondary_color;
+  }
+}
 .btn-secondary {
   background-color: $secondary_color;
   border: 1px solid $secondary_color;
@@ -145,6 +161,11 @@ span {
     background-color: $primary_color;
     border: 1px solid $primary_color;
   }
+}
+.td_action {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 .section_sub_title {
   color: #fe538d;

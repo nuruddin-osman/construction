@@ -1,8 +1,10 @@
-.dashboard {
-  .dashboard_wrapper {
+.services_admin {
+  .services_wrapper {
     display: grid;
     grid-template-columns: 1fr 3fr;
+    gap: 20px;
     .sidebar {
+      border-radius: 10px;
       .sidebar_menu {
         li {
           display: block;
@@ -16,6 +18,15 @@
             border-bottom: 1px solid rgba(128, 128, 128, 0.236);
           }
         }
+      }
+    }
+    .main_part {
+      border-radius: 10px;
+      .servies_header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.236);
       }
     }
   }

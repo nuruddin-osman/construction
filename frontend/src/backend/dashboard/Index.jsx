@@ -10,9 +10,7 @@ const Dashboard = () => {
       <div className="dashboard">
         <div className="container">
           <div className="dashboard_wrapper">
-            <div className="sidebar">
-              <Sidebar />
-            </div>
+            <Sidebar />
             <div className="main_part"></div>
           </div>
         </div>

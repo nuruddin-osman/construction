@@ -13,6 +13,7 @@ import Login from "./pages/login/Index";
 import { ToastContainer } from "react-toastify";
 import Dashboard from "./backend/dashboard/Index";
 import RequiredAuth from "./components/common/RequiredAuth";
+import { default as ShowServices } from "./backend/dashboard/services/Show";
 
 const App = () => {
   return (
@@ -30,6 +31,14 @@ const App = () => {
           element={
             <RequiredAuth>
               <Dashboard />
+            </RequiredAuth>
+          }
+        />
+        <Route
+          path="/admin/services"
+          element={
+            <RequiredAuth>
+              <ShowServices />
             </RequiredAuth>
           }
         />
