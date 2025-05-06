@@ -25,32 +25,14 @@ const Login = () => {
     });
     const result = await res.json();
     if (result.status == true) {
-      toast.success("Login successfull", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toast.success("Login successful");
       const userInfo = { id: result.id, token: result.token };
       login(userInfo);
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
       //   localStorage.setItem("userInfo", JSON.stringify(result));
       navigate("/admin/dashboard");
     } else {
-      toast.warn("User credential error", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toast.warn("User credential error");
     }
   };
 

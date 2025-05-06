@@ -1,8 +1,8 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes } from "react-router-dom";
-import Contact from "./components/Contact";
 import "./assets/css/style.scss";
+import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/home/Index";
 import About from "./pages/about/Index";
 import Services from "./pages/Services/Index";
@@ -14,6 +14,7 @@ import { ToastContainer } from "react-toastify";
 import Dashboard from "./backend/dashboard/Index";
 import RequiredAuth from "./components/common/RequiredAuth";
 import { default as ShowServices } from "./backend/dashboard/services/Show";
+import ServiceCreate from "./backend/dashboard/services/ServiceCreate";
 
 const App = () => {
   return (
@@ -42,8 +43,25 @@ const App = () => {
             </RequiredAuth>
           }
         />
+        <Route
+          path="/admin/services/create"
+          element={
+            <RequiredAuth>
+              <ServiceCreate />
+            </RequiredAuth>
+          }
+        />
       </Routes>
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        closeOnClick={false}
+        pauseOnHover={true}
+        draggable={true}
+        progress={undefined}
+        theme="light"
+      />
     </>
   );
 };

@@ -37,7 +37,7 @@ const Show = () => {
             <div className="main_part shadow p-3">
               <div className="servies_header py-2">
                 <h4>Services ducumantation</h4>
-                <Link to="#" className="btn btn-primary">
+                <Link to="/admin/services/create" className="btn btn-primary">
                   Create
                 </Link>
               </div>
@@ -63,7 +63,7 @@ const Show = () => {
                           <td>{item.slug}</td>
                           <td>{item.short_desc}</td>
                           <td>{item.description}</td>
-                          <td>{item.status}</td>
+                          <td>{item.status == 1 ? "Active" : "Block"}</td>
                           <td>
                             <div className="td_action">
                               <Link to="#" className="btn-small">
