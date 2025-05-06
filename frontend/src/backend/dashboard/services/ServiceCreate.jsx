@@ -9,6 +9,8 @@ import { apiUrl, token } from "../common/Http";
 import { toast } from "react-toastify";
 
 const ServiceCreate = ({ placeholder }) => {
+  const [servicesData, setServicesData] = useState([]);
+  const [isLoader, setIsLoader] = useState(false);
   // jodit for textarea
   const editor = useRef(null);
   const [content, setContent] = useState("");
@@ -49,6 +51,30 @@ const ServiceCreate = ({ placeholder }) => {
     } else {
       toast.error(result.errors);
     }
+  };
+
+  const handleFile = async (e) => {
+    const formData = new FormData();
+    const file = e.target.files[0];
+    formData.append("image", file);
+    setIsLoader(true);
+    await fetch(apiUrl + "temp-image", {
+      method: "POST",
+      headers: {
+        Accpet: "application/json",
+        Authorization: `bearer ${token()}`,
+      },
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status == false) {
+          toast.error(result.errors.image[0]);
+        } else {
+          toast.success(result.message);
+          setIsLoader(false);
+        }
+      });
   };
 
   return (
@@ -130,6 +156,11 @@ const ServiceCreate = ({ placeholder }) => {
                       onChange={(newContent) => setContent(newContent)}
                     />
                   </div>
+
+                  <div className="d-flex gap-3 align-items-center py-4">
+                    <label htmlFor="image">Image</label>
+                    <input onChange={handleFile} type="file" />
+                  </div>
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="status">Status</label>
                     <select
@@ -142,7 +173,11 @@ const ServiceCreate = ({ placeholder }) => {
                       <option value="0">Block</option>
                     </select>
                   </div>
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    disabled={isLoader}
+                    type="submit"
+                    className="btn btn-primary"
+                  >
                     Save
                   </button>
                 </form>

@@ -24,8 +24,6 @@ const Show = () => {
     fetchApi();
   }, []);
 
-  console.log(servicesData);
-
   return (
     <>
       <Navbars />
@@ -62,7 +60,11 @@ const Show = () => {
                           <td>{item.title}</td>
                           <td>{item.slug}</td>
                           <td>{item.short_desc}</td>
-                          <td>{item.description}</td>
+                          <td
+                            dangerouslySetInnerHTML={{
+                              __html: item.description,
+                            }}
+                          />
                           <td>{item.status == 1 ? "Active" : "Block"}</td>
                           <td>
                             <div className="td_action">
