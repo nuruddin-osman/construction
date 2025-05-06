@@ -139,16 +139,15 @@ span {
 }
 .btn-small {
   background-color: $primary_color;
-  border: 1px solid $primary_color;
   font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
   padding: 3px 6px;
   border-radius: 4px;
+  display: inline-block;
   transition: all 0.3s ease-in-out;
   &:hover {
     background-color: $secondary_color;
-    border: 1px solid $secondary_color;
   }
 }
 .btn-secondary {
@@ -164,8 +163,8 @@ span {
 }
 .td_action {
   display: flex;
+  gap: 10px;
   align-items: center;
-  gap: 5px;
 }
 .section_sub_title {
   color: #fe538d;

@@ -1,10 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbars from "../../../components/navbar/Navbar";
 import Footer from "../../../components/footer/Footer";
 import Sidebar from "../sidebar/Index";
 import { Link } from "react-router-dom";
+import { apiUrl, token } from "../common/Http";
 
 const Show = () => {
+  const [servicesData, setServicesData] = useState([]);
+  const fetchApi = async () => {
+    const res = await fetch(apiUrl + "services", {
+      method: "get",
+      headers: {
+        "content-type": "application/json",
+        Accpet: "application/json",
+        Authorization: `bearer ${token()}`,
+      },
+    });
+    const result = await res.json();
+    setServicesData(result.data);
+  };
+
+  useEffect(() => {
+    fetchApi();
+  }, []);
+
+  console.log(servicesData);
+
   return (
     <>
       <Navbars />
@@ -20,7 +41,7 @@ const Show = () => {
                   Create
                 </Link>
               </div>
-              <div className="table">
+              <div className="tables">
                 <table className="table table-success table-striped">
                   <thead>
                     <tr>
@@ -34,22 +55,27 @@ const Show = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Alu</td>
-                      <td>alus</td>
-                      <td>thik ache vai</td>
-                      <td>abar dekha hobe</td>
-                      <td>Active</td>
-                      <td className="td_action">
-                        <Link to="#" className="btn-small">
-                          edit
-                        </Link>
-                        <Link to="#" className="btn-small">
-                          delete
-                        </Link>
-                      </td>
-                    </tr>
+                    {servicesData &&
+                      servicesData.map((item) => (
+                        <tr key={item.id}>
+                          <td>{item.id}</td>
+                          <td>{item.title}</td>
+                          <td>{item.slug}</td>
+                          <td>{item.short_desc}</td>
+                          <td>{item.description}</td>
+                          <td>{item.status}</td>
+                          <td>
+                            <div className="td_action">
+                              <Link to="#" className="btn-small">
+                                edit
+                              </Link>
+                              <Link to="#" className="btn-small">
+                                delete
+                              </Link>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
