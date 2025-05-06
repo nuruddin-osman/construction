@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useMemo } from "react";
+import JoditEditor from "jodit-react";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../../../components/footer/Footer";
 import Sidebar from "../sidebar/Index";
@@ -7,15 +8,28 @@ import { useForm } from "react-hook-form";
 import { apiUrl, token } from "../common/Http";
 import { toast } from "react-toastify";
 
-const ServiceCreate = () => {
-  const [formData, setFormData] = useState();
+const ServiceCreate = ({ placeholder }) => {
+  // jodit for textarea
+  const editor = useRef(null);
+  const [content, setContent] = useState("");
+  const config = useMemo(
+    () => ({
+      readonly: false, // all options from https://xdsoft.net/jodit/docs/,
+      placeholder: placeholder || "description",
+    }),
+    [placeholder]
+  );
+
   const navigate = useNavigate();
+  //form handling and validation
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
+    const newData = { ...data, description: content };
+    // data store in database
     const res = await fetch(apiUrl + "services", {
       method: "POST",
       headers: {
@@ -23,7 +37,7 @@ const ServiceCreate = () => {
         Accpet: "application/json",
         Authorization: `Bearer ${token()}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(newData),
     });
 
     const result = await res.json();
@@ -107,14 +121,14 @@ const ServiceCreate = () => {
                   </div>
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="description">Description</label>
-                    <textarea
+                    <JoditEditor
                       className="form-control"
-                      type="text"
-                      id="description"
-                      name="description"
-                      placeholder="Please type description"
-                      {...register("description")}
-                    ></textarea>
+                      ref={editor}
+                      value={content}
+                      config={config}
+                      tabIndex={1} // tabIndex of textarea
+                      onChange={(newContent) => setContent(newContent)}
+                    />
                   </div>
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="status">Status</label>
