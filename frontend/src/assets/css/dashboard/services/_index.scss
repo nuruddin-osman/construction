@@ -34,6 +34,16 @@
           border-radius: 10px;
           overflow: hidden;
         }
+        .servicesAdminImage {
+          width: 500px;
+          height: auto;
+          overflow: hidden;
+          img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+          }
+        }
       }
     }
   }

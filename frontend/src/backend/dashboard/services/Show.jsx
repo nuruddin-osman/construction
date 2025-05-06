@@ -68,7 +68,10 @@ const Show = () => {
                           <td>{item.status == 1 ? "Active" : "Block"}</td>
                           <td>
                             <div className="td_action">
-                              <Link to="#" className="btn-small">
+                              <Link
+                                to={`/admin/services/edit/${item.id}`}
+                                className="btn-small"
+                              >
                                 edit
                               </Link>
                               <Link to="#" className="btn-small">

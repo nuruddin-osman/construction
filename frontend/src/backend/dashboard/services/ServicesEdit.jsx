@@ -1,20 +1,19 @@
-import React, { useState, useRef, useMemo } from "react";
-import JoditEditor from "jodit-react";
-import { Link, useNavigate } from "react-router-dom";
-import Footer from "../../../components/footer/Footer";
-import Sidebar from "../sidebar/Index";
+import React, { useMemo, useRef, useState } from "react";
 import Navbars from "../../../components/navbar/Navbar";
+import Sidebar from "../sidebar/Index";
+import { Link, useParams } from "react-router-dom";
+import JoditEditor from "jodit-react";
 import { useForm } from "react-hook-form";
-import { apiUrl, token } from "../common/Http";
-import { toast } from "react-toastify";
+import Footer from "../../../components/footer/Footer";
+import { apiUrl, imageUrl, token } from "../common/Http";
 
-const ServiceCreate = ({ placeholder }) => {
-  const [isLoader, setIsLoader] = useState(false);
-  const [imageId, setImageId] = useState(null);
-
-  // jodit for textarea
+const ServicesEdit = ({ placeholder }) => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
+  const [services, setServices] = useState("");
+
+  const params = useParams();
+
   const config = useMemo(
     () => ({
       readonly: false, // all options from https://xdsoft.net/jodit/docs/,
@@ -23,60 +22,52 @@ const ServiceCreate = ({ placeholder }) => {
     [placeholder]
   );
 
-  const navigate = useNavigate();
-  //form handling and validation
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
-  } = useForm();
-  const onSubmit = async (data) => {
-    const newData = { ...data, description: content, imageId: imageId };
-    // data store in database
-    const res = await fetch(apiUrl + "services", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        Accpet: "application/json",
-        Authorization: `Bearer ${token()}`,
-      },
-      body: JSON.stringify(newData),
-    });
+  } = useForm({
+    defaultValues: async () => {
+      const res = await fetch(apiUrl + "services/" + params.id, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accpet: "application/json",
+          Authorization: `bearer ${token()}`,
+        },
+      });
+      const result = await res.json();
+      if (result.status == true) {
+        setContent(result.data.description);
+        setServices(result.data);
+        return {
+          title: result.data.title,
+          slug: result.data.slug,
+          short_desc: result.data.short_desc,
+          status: result.data.status,
+        };
+      }
+    },
+  });
 
-    const result = await res.json();
-    if (result.status == true) {
-      toast.success(result.message);
-      setTimeout(() => {
-        navigate("/admin/services");
-      }, 2000);
-    } else {
-      toast.error(result.errors);
-    }
-  };
+  const onSubmit = (data) => console.log(data);
 
   const handleFile = async (e) => {
     const formData = new FormData();
     const file = e.target.files[0];
     formData.append("image", file);
-    setIsLoader(true);
-    await fetch(apiUrl + "temp-image", {
-      method: "POST",
+
+    const res = await fetch(imageUrl + "uploads/services/large", {
+      method: "GET",
       headers: {
-        Accpet: "application/json",
-        Authorization: `bearer ${token()}`,
+        "Content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `bearer + ${token()}`,
       },
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.status == false) {
-          toast.error(result.errors.image[0]);
-        } else {
-          setImageId(result.data.id);
-          toast.success(result.message);
-          setIsLoader(false);
-        }
-      });
+    });
+    const result = await res.json();
+    console.log(result);
   };
 
   return (
@@ -160,8 +151,22 @@ const ServiceCreate = ({ placeholder }) => {
                   </div>
 
                   <div className="d-flex gap-3 align-items-center py-4">
-                    <label htmlFor="image">Image</label>
-                    <input onChange={handleFile} type="file" />
+                    <div className="">
+                      <label htmlFor="image">Image</label>
+                      <input onChange={handleFile} type="file" />
+                    </div>
+                    <div className="servicesAdminImage">
+                      {services.image && (
+                        <img
+                          src={
+                            imageUrl +
+                            "uploads/services/large/" +
+                            services.image
+                          }
+                          alt={services.image}
+                        />
+                      )}
+                    </div>
                   </div>
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="status">Status</label>
@@ -175,11 +180,7 @@ const ServiceCreate = ({ placeholder }) => {
                       <option value="0">Block</option>
                     </select>
                   </div>
-                  <button
-                    disabled={isLoader}
-                    type="submit"
-                    className="btn btn-primary"
-                  >
+                  <button type="submit" className="btn btn-primary">
                     Save
                   </button>
                 </form>
@@ -193,4 +194,4 @@ const ServiceCreate = ({ placeholder }) => {
   );
 };
 
-export default ServiceCreate;
+export default ServicesEdit;

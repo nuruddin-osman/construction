@@ -15,6 +15,7 @@ import Dashboard from "./backend/dashboard/Index";
 import RequiredAuth from "./components/common/RequiredAuth";
 import { default as ShowServices } from "./backend/dashboard/services/Show";
 import ServiceCreate from "./backend/dashboard/services/ServiceCreate";
+import ServicesEdit from "./backend/dashboard/services/ServicesEdit";
 
 const App = () => {
   return (
@@ -48,6 +49,14 @@ const App = () => {
           element={
             <RequiredAuth>
               <ServiceCreate />
+            </RequiredAuth>
+          }
+        />
+        <Route
+          path="/admin/services/edit/:id"
+          element={
+            <RequiredAuth>
+              <ServicesEdit />
             </RequiredAuth>
           }
         />
