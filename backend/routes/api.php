@@ -4,8 +4,11 @@ use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ServicesController;
 use App\Http\Controllers\admin\TempImageController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\frontend\services\ServicesController as ServicesServicesController;
 use Illuminate\Support\Facades\Route;
 Route::post('/authenticate',[AuthenticationController::class, 'authenticate']);
+Route::get('/get-services',[ServicesServicesController::class, 'index']);
+Route::get('/limit-services',[ServicesServicesController::class, 'limitedServices']);
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
