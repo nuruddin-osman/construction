@@ -190,7 +190,8 @@ class ServicesController extends Controller
 
         return response()->json([
             'status'=> true,
-            'data'=> $services
+            'data'=> $services,
+            'message'=> 'services data update successfully'
         ]);
     }
 

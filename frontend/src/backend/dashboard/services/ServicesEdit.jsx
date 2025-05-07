@@ -1,18 +1,21 @@
 import React, { useMemo, useRef, useState } from "react";
 import Navbars from "../../../components/navbar/Navbar";
 import Sidebar from "../sidebar/Index";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import JoditEditor from "jodit-react";
 import { useForm } from "react-hook-form";
 import Footer from "../../../components/footer/Footer";
 import { apiUrl, imageUrl, token } from "../common/Http";
+import { toast } from "react-toastify";
 
 const ServicesEdit = ({ placeholder }) => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
   const [services, setServices] = useState("");
+  const [imageId, setImageId] = useState(null);
 
   const params = useParams();
+  const navigate = useNavigate();
 
   const config = useMemo(
     () => ({
@@ -51,23 +54,52 @@ const ServicesEdit = ({ placeholder }) => {
     },
   });
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    const newData = { ...data, description: content, imageId: imageId };
+    const res = await fetch(apiUrl + "services/" + params.id, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `bearer ${token()}`,
+      },
+      body: JSON.stringify(newData),
+    });
+    const result = await res.json();
+    console.log(result);
+
+    if (result.status == true) {
+      toast.success(result.message);
+      setTimeout(() => {
+        navigate("/admin/services");
+      }, 2000);
+    } else {
+      toast.error(result.errors);
+    }
+  };
 
   const handleFile = async (e) => {
     const formData = new FormData();
     const file = e.target.files[0];
     formData.append("image", file);
 
-    const res = await fetch(imageUrl + "uploads/services/large", {
-      method: "GET",
+    await fetch(apiUrl + "temp-image", {
+      method: "POST",
       headers: {
-        "Content-type": "application/json",
         Accept: "application/json",
-        Authorization: `bearer + ${token()}`,
+        Authorization: `bearer ${token()}`,
       },
-    });
-    const result = await res.json();
-    console.log(result);
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status == false) {
+          toast.error(result.errors.image);
+        } else {
+          toast.success(result.message);
+          setImageId(result.data.id);
+        }
+      });
   };
 
   return (
