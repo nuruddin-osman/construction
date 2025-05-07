@@ -4,6 +4,7 @@ import Footer from "../../../components/footer/Footer";
 import Sidebar from "../sidebar/Index";
 import { Link } from "react-router-dom";
 import { apiUrl, token } from "../common/Http";
+import { toast } from "react-toastify";
 
 const Show = () => {
   const [servicesData, setServicesData] = useState([]);
@@ -23,6 +24,27 @@ const Show = () => {
   useEffect(() => {
     fetchApi();
   }, []);
+
+  const handleDelete = async (id) => {
+    if (confirm("Are you sure this services item is delete!")) {
+      const res = await fetch(apiUrl + "services/" + id, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+          Accpet: "application/json",
+          Authorization: `bearer ${token()}`,
+        },
+        body: JSON.stringify(),
+      });
+      const result = await res.json();
+
+      if (result.status == true) {
+        const newServiceData = servicesData.filter((item) => item.id != id);
+        setServicesData(newServiceData);
+        toast.success(result.message);
+      }
+    }
+  };
 
   return (
     <>
@@ -74,7 +96,11 @@ const Show = () => {
                               >
                                 edit
                               </Link>
-                              <Link to="#" className="btn-small">
+                              <Link
+                                onClick={() => handleDelete(item.id)}
+                                to="#"
+                                className="btn-small"
+                              >
                                 delete
                               </Link>
                             </div>
