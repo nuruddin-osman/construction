@@ -46,4 +46,46 @@ class ProjectsController extends Controller
             'message'=>"New projects overview added successfully"
         ]);
     }
+
+    public function update(Request $request, $id){
+
+        $project = Projects::find($id);
+
+        $request->merge(['slug'=>Str::slug($request->slug)]);
+
+        if ($project == null) {
+            return response()->json([
+                'status'=> false,
+                'message'=> 'Preject items is not found'
+            ]);
+        }
+        
+        $validation = Validator::make($request->all(),[
+            'title'=> 'required',
+            'slug'=>'required|unique:Projects,slug,'.$id.',id'
+        ]);
+        if ($validation->fails()) {
+            return response()->json([
+                'status'=> false,
+                'errors'=> $validation->errors()
+            ]);
+        }
+
+        $project->title = $request->title;
+        $project->slug = Str::slug($request->slug);
+        $project->short_desc = $request->short_desc;
+        $project->description = $request->description;
+        $project->construction_type = $request->construction_type;
+        $project->location = $request->location;
+        $project->sector = $request->sector;
+        $project->status = $request->status;
+        $project->save();
+
+
+        return response()->json([
+            'status'=>true,
+            'data'=> $project,
+            'message'=> "projects items updated successful"
+        ]);
+    }
 }
