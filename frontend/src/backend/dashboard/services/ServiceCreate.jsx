@@ -73,7 +73,6 @@ const ServiceCreate = ({ placeholder }) => {
           toast.error(result.errors.image[0]);
         } else {
           setImageId(result.data.id);
-          toast.success(result.message);
           setIsLoader(false);
         }
       });

@@ -30,6 +30,9 @@ const Navbars = () => {
             <Nav.Link className="nav_link" href="/contacts">
               Contact Us
             </Nav.Link>
+            <Nav.Link className="nav_link" href="/admin/dashboard">
+              Dashboard
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

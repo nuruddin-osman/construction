@@ -8,8 +8,8 @@ const Blog = () => {
   return (
     <div className="blog py-5">
       <div className="text-center">
-        <h4 className="blog_sub_title">our services</h4>
-        <h2 className="">Our construction services</h2>
+        <h4 className="blog_sub_title">Blog & News</h4>
+        <h2 className="">Articles & blog posts</h2>
         <p>
           We offer a diverse array of construction services, spanning
           residential, commercial, and industrial projects.

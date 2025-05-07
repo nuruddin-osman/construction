@@ -96,7 +96,6 @@ const ServicesEdit = ({ placeholder }) => {
         if (result.status == false) {
           toast.error(result.errors.image);
         } else {
-          toast.success(result.message);
           setImageId(result.data.id);
         }
       });
