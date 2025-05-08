@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/services/{id}', [ServicesController::class, 'destroy']);
 
     //Projects Route
+    Route::get('/projects', [ProjectsController::class, 'index']);
     Route::post('/projects', [ProjectsController::class, 'store']);
     Route::put('/projects/{id}', [ProjectsController::class, 'update']);
 

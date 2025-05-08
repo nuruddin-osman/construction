@@ -7,6 +7,7 @@ use App\Models\Projects;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -15,7 +16,11 @@ use Intervention\Image\ImageManager;
 class ProjectsController extends Controller
 {
     public function index(){
-
+        $project = Projects::orderBy('created_at','DESC')->get();
+        return response()->json([
+            'status'=> true,
+            'data'=> $project
+        ]);
     }
 
     public function store(Request $request){
