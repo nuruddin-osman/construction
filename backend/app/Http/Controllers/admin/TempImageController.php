@@ -22,6 +22,10 @@ class TempImageController extends Controller
            ]);
         }
         //ইমেজ সেভ ও ডেটাবেসে ইনসার্ট
+
+
+
+        //image unique name created
         $image = $request->image;
         $ext = $image->getClientOriginalExtension();
         $imageName = strtotime('now').'.'.$ext;
