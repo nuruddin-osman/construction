@@ -17,6 +17,13 @@ class ProjectsController extends Controller
 {
     public function index(){
         $project = Projects::orderBy('created_at','DESC')->get();
+
+        if ($project == null) {
+            return response()->json([
+                'status'=> false,
+                'errors'=> 'this project items is not found'
+            ]);
+        }
         return response()->json([
             'status'=> true,
             'data'=> $project
@@ -93,7 +100,7 @@ class ProjectsController extends Controller
         if ($project == null) {
             return response()->json([
                 'status'=> false,
-                'message'=> 'Preject items is not found'
+                'errors'=> 'Preject items is not found'
             ]);
         }
         
@@ -176,5 +183,21 @@ class ProjectsController extends Controller
             'data'=> $project,
             'message'=> 'project item id found success'
         ]);
+    }
+    public function destroy($id){
+        $project = Projects::find($id);
+        $project->delete();
+        
+        if ($project == null) {
+            return response()->json([
+                'status'=> false,
+                'errors'=> 'this project items is not found'
+            ]);
+        }
+        return response()->json([
+            'status'=> true,
+            'message'=> 'This item delete successfully'
+        ]);
+
     }
 }
