@@ -7,7 +7,6 @@ use App\Models\Projects;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -186,14 +185,19 @@ class ProjectsController extends Controller
     }
     public function destroy($id){
         $project = Projects::find($id);
-        $project->delete();
-        
+
+
         if ($project == null) {
             return response()->json([
                 'status'=> false,
                 'errors'=> 'this project items is not found'
             ]);
         }
+
+        File::delete(public_path('uploads/projects/large/'.$project->image));
+        File::delete(public_path('uploads/projects/small/'.$project->image));
+        $project->delete();
+        
         return response()->json([
             'status'=> true,
             'message'=> 'This item delete successfully'

@@ -207,6 +207,8 @@ class ServicesController extends Controller
                 'message'=>'services in not found'
             ]);
         }
+        File::delete(public_path('uploads/services/large/'.$services->image));
+        File::delete(public_path('uploads/services/small/'.$services->image));
         $services->delete();
         return response()->json([
             'status'=> true,
