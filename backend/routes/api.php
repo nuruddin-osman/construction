@@ -36,6 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/projects', [ProjectsController::class, 'index']);
     Route::post('/projects', [ProjectsController::class, 'store']);
     Route::put('/projects/{id}', [ProjectsController::class, 'update']);
+    Route::get('/projects/{id}', [ProjectsController::class, 'show']);
 
 
     //image uploads route
