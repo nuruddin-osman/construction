@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Projects;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -42,6 +43,34 @@ class ProjectsController extends Controller
         $project->sector = $request->sector;
         $project->status = $request->status;
         $project->save();
+
+
+        if ($request->imageId > 0) {
+            $temp_image = TempImage::find($request->imageId);
+            if ($temp_image != null) {
+                 //image name ke vengge extension ke niye aschi
+               $extArry = explode('.',$temp_image->name);
+               $ext = last($extArry);
+               $imagName = strtotime('now').$project->id.'.'.$ext;
+
+                //kon jayga theke niye asbo (sourcePath) r kothay use korbo (destinationPath)
+                $sourcePath = public_path('uploads/temp/'.$temp_image->name);
+                $destinationPathLarge = public_path('uploads/projects/large/'.$imagName);
+                $destinationPathSmall = public_path('uploads/projects/small/'.$imagName);
+
+                $manager = new ImageManager(Driver::class);
+                $image = $manager->read($sourcePath);
+
+                $image->scaleDown(1200);
+                $image->save($destinationPathLarge);
+
+                $image->coverDown(500,600);
+                $image->save($destinationPathSmall);
+
+                $project->image = $imagName;
+                $project->save();
+            }
+        }
     
         return response()->json([
             'status'=> true,
@@ -65,7 +94,7 @@ class ProjectsController extends Controller
         
         $validation = Validator::make($request->all(),[
             'title'=> 'required',
-            'slug'=>'required|unique:Projects,slug,'.$id.',id'
+            'slug'=>'required|unique:projects,slug,'.$id.',id'
         ]);
         if ($validation->fails()) {
             return response()->json([
@@ -85,6 +114,8 @@ class ProjectsController extends Controller
         $project->save();
 
         if ($request->imageId > 0) {
+
+            $old_image = $project->image;
             //$request er moddhe jodi image thake, tahole take find kore $temp_iamge a niye aschi
             $temp_image = TempImage::find($request->imageId);
             if ($temp_image != null) {
@@ -94,7 +125,7 @@ class ProjectsController extends Controller
                 $imagName = strtotime('now').$project->id.'.'.$ext;
 
                 //kon jayga theke niye asbo (sourcePath) r kothay use korbo (destinationPath)
-                $sourcePath = public_path('/uploads/temp/'.$temp_image->name);
+                $sourcePath = public_path('uploads/temp/'.$temp_image->name);
                 $destinationPath = public_path('uploads/projects/large/'.$imagName);
 
                 //image procesing
@@ -111,6 +142,12 @@ class ProjectsController extends Controller
                 //image name updated and save
                 $project->image = $imagName;
                 $project->save();
+
+                if ($old_image != '') {
+                    File::delete(public_path('uploads/projects/large/'.$old_image));
+                    File::delete(public_path('uploads/projects/small/'.$old_image));
+                }
+
             }
         }
 
