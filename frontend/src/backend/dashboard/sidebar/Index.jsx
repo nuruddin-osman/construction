@@ -19,7 +19,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <Link to="#" className="items  ">
+          <Link to="/admin/projects" className="items  ">
             Projects
           </Link>
         </li>
