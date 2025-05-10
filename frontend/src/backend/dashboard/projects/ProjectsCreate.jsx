@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import Footer from "../../../components/footer/Footer";
 import { useForm } from "react-hook-form";
 import JoditEditor from "jodit-react";
+import { apiUrl, token } from "../common/Http";
+import { toast } from "react-toastify";
 
 const ProjectsCreate = ({ placeholder }) => {
   const [projectsData, setProjectsData] = useState("");
@@ -28,10 +30,24 @@ const ProjectsCreate = ({ placeholder }) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Content at submit:", content); //smikoron 2
+  const onSubmit = async (data) => {
     const newData = { ...data, description: content };
-    console.log(newData);
+
+    const res = await fetch(apiUrl + "projects", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `bearer ${token()}`,
+      },
+      body: JSON.stringify(newData),
+    });
+    const result = await res.json();
+    if (result.status == true) {
+      toast.success(result.message);
+    } else {
+      toast.error(result.errors);
+    }
   };
   return (
     <>
