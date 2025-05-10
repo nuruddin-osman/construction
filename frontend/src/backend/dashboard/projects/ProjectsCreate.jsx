@@ -1,7 +1,7 @@
 import React, { useState, useRef, useMemo } from "react";
 import Navbars from "../../../components/navbar/Navbar";
 import Sidebar from "../sidebar/Index";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../../../components/footer/Footer";
 import { useForm } from "react-hook-form";
 import JoditEditor from "jodit-react";
@@ -9,11 +9,11 @@ import { apiUrl, token } from "../common/Http";
 import { toast } from "react-toastify";
 
 const ProjectsCreate = ({ placeholder }) => {
-  const [projectsData, setProjectsData] = useState("");
+  const [imageId, setImageId] = useState("");
+  const navigate = useNavigate();
 
   const editor = useRef(null);
   const [content, setContent] = useState("");
-  console.log(content); //smikoron 1
 
   const config = useMemo(
     () => ({
@@ -31,7 +31,7 @@ const ProjectsCreate = ({ placeholder }) => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const newData = { ...data, description: content };
+    const newData = { ...data, description: content, imageId: imageId };
 
     const res = await fetch(apiUrl + "projects", {
       method: "POST",
@@ -45,9 +45,35 @@ const ProjectsCreate = ({ placeholder }) => {
     const result = await res.json();
     if (result.status == true) {
       toast.success(result.message);
+      setTimeout(() => {
+        navigate("/admin/projects");
+      }, 2000);
     } else {
       toast.error(result.errors);
     }
+  };
+
+  const handleFile = async (e) => {
+    const fileObject = new FormData();
+    const file = e.target.files[0];
+    fileObject.append("image", file);
+
+    await fetch(apiUrl + "temp-image", {
+      method: "post",
+      headers: {
+        Accept: "application/json",
+        Authorization: `bearer ${token()}`,
+      },
+      body: fileObject,
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status == false) {
+          toast.error(result.errors.image[0]);
+        } else {
+          setImageId(result.data.id);
+        }
+      });
   };
   return (
     <>
@@ -182,7 +208,7 @@ const ProjectsCreate = ({ placeholder }) => {
 
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="image">Image</label>
-                    <input type="file" />
+                    <input onChange={handleFile} type="file" />
                   </div>
 
                   <button type="submit" className="btn btn-primary">
