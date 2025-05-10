@@ -1,10 +1,98 @@
-import React from "react";
+import React, { useState, useRef, useMemo } from "react";
 import Navbars from "../../../components/navbar/Navbar";
 import Sidebar from "../sidebar/Index";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Footer from "../../../components/footer/Footer";
+import { useForm } from "react-hook-form";
+import JoditEditor from "jodit-react";
+import { apiUrl, imageUrl, token } from "../common/Http";
+import { toast } from "react-toastify";
 
-const EditProjects = () => {
+const EditProjects = ({ placeholder }) => {
+  const [content, setContent] = useState("");
+  const [imageFind, setImageFind] = useState("");
+  const [imageId, setImageId] = useState("");
+  const editor = useRef(null);
+  const params = useParams();
+  //   console.log(imageFind.image);
+  const config = useMemo(
+    () => ({
+      readonly: false, // all options from https://xdsoft.net/jodit/docs/,
+      placeholder: placeholder || "",
+    }),
+    [placeholder]
+  );
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: async () => {
+      const res = await fetch(apiUrl + "projects/" + params.id, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `bearer ${token()}`,
+        },
+      });
+      const result = await res.json();
+      if (result.status == true) {
+        setImageFind(result.data);
+        setContent(result.data.description);
+        return {
+          title: result.data.title,
+          slug: result.data.slug,
+          short_desc: result.data.short_desc,
+          construction_type: result.data.construction_type,
+          sector: result.data.sector,
+          location: result.data.location,
+          status: result.data.status,
+        };
+      }
+    },
+  });
+
+  const onSubmit = async (data) => {
+    const newData = { ...data, description: content, imageId: imageId };
+    const res = await fetch(apiUrl + "projects/" + params.id, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `bearer ${token()}`,
+      },
+      body: JSON.stringify(newData),
+    });
+    const result = await res.json();
+    if (result.status == true) {
+      toast.success(result.message);
+    }
+  };
+  const handleFile = async (e) => {
+    const formImage = new FormData();
+    const file = e.target.files[0];
+    formImage.append("image", file);
+
+    fetch(apiUrl + "temp-image", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `bearer ${token()}`,
+      },
+      body: formImage,
+    })
+      .then((response) => response.json())
+      .then((resutl) => {
+        if (resutl.status == false) {
+          toast.success(resutl.errors);
+        } else {
+          setImageId(resutl.data.id);
+        }
+      });
+  };
   return (
     <>
       <Navbars />
@@ -21,23 +109,58 @@ const EditProjects = () => {
                 </Link>
               </div>
               <div className="tables">
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="title">Title</label>
-                    <input />
+                    <input
+                      className={`form-control ${
+                        errors.title ? "is-invalid" : ""
+                      }`}
+                      {...register("title", {
+                        required: "the titel fields is required",
+                      })}
+                    />
                   </div>
+                  {errors.title && (
+                    <div className="invalid-feedback d-block">
+                      {errors.title.message}
+                    </div>
+                  )}
 
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="slug">Slug</label>
-                    <input />
+                    <input
+                      className={`form-control ${
+                        errors.slug ? "is-invalid" : ""
+                      }`}
+                      {...register("slug", {
+                        required: "the slug fields is required",
+                      })}
+                    />
                   </div>
+                  {errors.slug && (
+                    <div className="invalid-feedback d-block">
+                      {errors.slug.errors}
+                    </div>
+                  )}
 
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="short_desc">Short_desc</label>
-                    <input className="form-control" />
+                    <input
+                      {...register("short_desc")}
+                      className="form-control"
+                    />
                   </div>
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="description">Description</label>
+                    <JoditEditor
+                      ref={editor}
+                      value={content}
+                      config={config}
+                      tabIndex={1} // tabIndex of textarea
+                      onBlur={(newContent) => setContent(newContent)}
+                      onChange={(newContent) => {}}
+                    />
                   </div>
                   <div className="row">
                     <div className="col-md-6">
@@ -48,6 +171,7 @@ const EditProjects = () => {
                         <select
                           name="construction_type"
                           className="form-control"
+                          {...register("construction_type")}
                         >
                           <option value="residential construction">
                             Residential construction
@@ -65,7 +189,11 @@ const EditProjects = () => {
                       </div>
                       <div className="d-flex gap-3 align-items-center py-4">
                         <label htmlFor="sector">Sector</label>
-                        <select name="sector" className="form-control">
+                        <select
+                          {...register("sector")}
+                          name="sector"
+                          className="form-control"
+                        >
                           <option value="uttora">Uttora</option>
                           <option value="badda">badda</option>
                           <option value="mirpur">Mirpur</option>
@@ -76,11 +204,17 @@ const EditProjects = () => {
                     <div className="col-md-6">
                       <div className="d-flex gap-3 align-items-center py-4">
                         <label htmlFor="location">Location</label>
-                        <input className="form-control" />
+                        <input
+                          {...register("location")}
+                          className="form-control"
+                        />
                       </div>
                       <div className="d-flex gap-3 align-items-center py-4">
                         <label htmlFor="status">Status</label>
-                        <select className="form-control">
+                        <select
+                          {...register("status")}
+                          className="form-control"
+                        >
                           <option value="1">Active</option>
                           <option value="0">Block</option>
                         </select>
@@ -89,8 +223,22 @@ const EditProjects = () => {
                   </div>
 
                   <div className="d-flex gap-3 align-items-center py-4">
-                    <label htmlFor="image">Image</label>
-                    <input type="file" />
+                    <div className="">
+                      <label htmlFor="image">Image</label>
+                      <input onChange={handleFile} type="file" />
+                    </div>
+                    <div className="servicesAdminImage">
+                      {imageFind.image && (
+                        <img
+                          src={
+                            imageUrl +
+                            "uploads/projects/large/" +
+                            imageFind.image
+                          }
+                          alt={imageFind.image}
+                        />
+                      )}
+                    </div>
                   </div>
 
                   <button type="submit" className="btn btn-primary">
