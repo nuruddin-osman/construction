@@ -34,7 +34,7 @@ const ShowProjects = () => {
 
             <div className="main_part shadow p-3">
               <div className="servies_header py-2">
-                <h4>Services ducumantation</h4>
+                <h4>Projects ducumantation</h4>
                 <Link to="/admin/projects/create" className="btn btn-primary">
                   Create
                 </Link>
@@ -69,7 +69,7 @@ const ShowProjects = () => {
                           <td>
                             <div className="td_action">
                               <Link
-                                to={`/admin/services/edit/${item.id}`}
+                                to={`/admin/projects/edit/${item.id}`}
                                 className="btn-small"
                               >
                                 edit

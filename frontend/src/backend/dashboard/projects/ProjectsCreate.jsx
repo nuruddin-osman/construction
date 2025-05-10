@@ -85,7 +85,7 @@ const ProjectsCreate = ({ placeholder }) => {
 
             <div className="main_part shadow p-3">
               <div className="servies_header py-2">
-                <h4>Services ducumantation</h4>
+                <h4>Projects ducumantation</h4>
                 <Link to="/admin/services" className="btn btn-primary">
                   Back
                 </Link>
