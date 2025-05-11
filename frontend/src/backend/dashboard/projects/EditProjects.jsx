@@ -1,7 +1,7 @@
 import React, { useState, useRef, useMemo } from "react";
 import Navbars from "../../../components/navbar/Navbar";
 import Sidebar from "../sidebar/Index";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Footer from "../../../components/footer/Footer";
 import { useForm } from "react-hook-form";
 import JoditEditor from "jodit-react";
@@ -13,6 +13,7 @@ const EditProjects = ({ placeholder }) => {
   const [imageFind, setImageFind] = useState([]);
   const [imageId, setImageId] = useState(null);
   const editor = useRef(null);
+  const navigate = useNavigate();
   const params = useParams();
   //   console.log(imageFind.image);
   const config = useMemo(
@@ -69,6 +70,9 @@ const EditProjects = ({ placeholder }) => {
     const result = await res.json();
     if (result.status == true) {
       toast.success(result.message);
+      setTimeout(() => {
+        navigate("/admin/projects");
+      }, 2000);
     }
   };
   const handleFile = async (e) => {

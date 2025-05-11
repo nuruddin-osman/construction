@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import ServicesImg from "../../../public/assets/images/construction2.jpg";
+import { apiUrl, imageUrl } from "../../backend/dashboard/common/Http";
 
 const Projects = () => {
+  const [latestProjects, setLatestProjects] = useState();
+  const fetchApi = async () => {
+    const res = await fetch(apiUrl + "get-latest-projects?limit=4", {
+      method: "GET",
+    });
+    const resutl = await res.json();
+    if (resutl.status == true) {
+      setLatestProjects(resutl.data);
+    }
+  };
+  useEffect(() => {
+    fetchApi();
+  }, []);
   return (
     <div className="our_services py-5">
       <div className="text-center">
@@ -16,89 +29,28 @@ const Projects = () => {
       </div>
       <div className="container-fluid py-5">
         <div className="row">
-          <div className="col-md-3">
-            <Card className="card_head">
-              <Card.Img
-                variant="top"
-                className="card_image"
-                src={ServicesImg}
-              />
-              <Card.Body className="card_body">
-                <Card.Title>Kanpur Project 2025</Card.Title>
-                <div className="service_content">
-                  <Card.Text className="">
-                    Civil construction is a core sector within the construction
-                    industry that focuses on the design, development, and
-                    maintenance of infrastructure that supports modern society.
-                  </Card.Text>
-                  <Button variant="primary">Read more</Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </div>
-          <div className="col-md-3">
-            {" "}
-            <Card className="card_head">
-              <Card.Img
-                variant="top"
-                className="card_image"
-                src={ServicesImg}
-              />
-              <Card.Body className="card_body">
-                <Card.Title>Delhi Project 2025</Card.Title>
-                <div className="service_content">
-                  <Card.Text className="">
-                    Civil construction is a core sector within the construction
-                    industry that focuses on the design, development, and
-                    maintenance of infrastructure that supports modern society.
-                  </Card.Text>
-                  <Button variant="primary">Read more</Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </div>
-          <div className="col-md-3">
-            {" "}
-            <Card className="card_head">
-              <Card.Img
-                variant="top"
-                className="card_image"
-                src={ServicesImg}
-              />
-              <Card.Body className="card_body">
-                <Card.Title>Goa Project 2025</Card.Title>
-                <div className="service_content">
-                  <Card.Text className="">
-                    Civil construction is a core sector within the construction
-                    industry that focuses on the design, development, and
-                    maintenance of infrastructure that supports modern society.
-                  </Card.Text>
-                  <Button variant="primary">Read more</Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </div>
-          <div className="col-md-3">
-            {" "}
-            <Card className="card_head">
-              <Card.Img
-                variant="top"
-                className="card_image"
-                src={ServicesImg}
-              />
-              <Card.Body className="card_body">
-                <Card.Title>Lucknow Project 2025</Card.Title>
-                <div className="service_content">
-                  <Card.Text className="">
-                    Civil construction is a core sector within the construction
-                    industry that focuses on the design, development, and
-                    maintenance of infrastructure that supports modern society.
-                  </Card.Text>
-                  <Button variant="primary">Read more</Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </div>
+          {latestProjects &&
+            latestProjects.map((item) => (
+              <div className="col-md-3">
+                <Card className="card_head">
+                  <Card.Img
+                    variant="top"
+                    className="card_image"
+                    src={
+                      item.image &&
+                      `${imageUrl}uploads/projects/small/${item.image}`
+                    }
+                  />
+                  <Card.Body className="card_body">
+                    <Card.Title>{item.title}</Card.Title>
+                    <div className="service_content">
+                      <Card.Text className="">{item.short_desc}</Card.Text>
+                      <Button variant="primary">Read more</Button>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </div>
+            ))}
         </div>
       </div>
       <div className="text-center">
