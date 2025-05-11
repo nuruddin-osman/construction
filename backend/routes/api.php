@@ -47,6 +47,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/article', [ArticleController::class, 'store']);
     Route::get('/article/{id}', [ArticleController::class, 'show']);
     Route::put('/article/{id}', [ArticleController::class, 'update']);
+    Route::delete('/article/{id}', [ArticleController::class, 'destroy']);
 
 
     //image uploads route

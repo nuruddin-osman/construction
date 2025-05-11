@@ -171,4 +171,25 @@ class ArticleController extends Controller
             'message'=> 'success'
         ]);
     }
+
+    public function destroy($id){
+        $article = Article::find($id);
+
+        $article->delete();
+
+        if ($article == null) {
+            return response()->json([
+                'status'=> false,
+                'errors'=> "this item in not deleted"
+            ]);
+        }
+
+        File::delete(public_path('uploads/articles/large/'.$article->image));
+        File::delete(public_path('uploads/articles/small/'.$article->image));
+
+        return response()->json([
+            'status'=> true,
+            'message'=> "this item is deleted"
+        ]);
+    }
 }
