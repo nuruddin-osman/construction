@@ -13,6 +13,21 @@ use Intervention\Image\ImageManager;
 
 class ArticleController extends Controller
 {
+    public function index(){
+        $article = Article::orderBy('created_at', 'DESC')->get();
+
+        if ($article == null) {
+            return response()->json([
+                'status'=> false,
+                'errors'=> 'Article items is not found'
+            ]);
+        }
+        return response()->json([
+            'status'=>true,
+            'data'=> $article,
+            'message'=> "success"
+        ]);
+    }
     public function store(Request $request){
 
         $request->merge(['slug'=>Str::slug($request->slug)]);
