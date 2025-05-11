@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -98,6 +99,76 @@ class ArticleController extends Controller
             'status'=>true,
             'data'=> $article,
             'message'=> "success"
+        ]);
+    }
+    public function update(Request $request, $id){
+
+        $article = Article::find($id);
+        if ($article == null) {
+            return response()->json([
+                'status'=> false,
+                'errors'=> "Update item in not found"
+            ]);
+        }
+
+        $request->merge(['slug'=>Str::slug($request->slug)]);
+
+        $validation = Validator::make($request->all(),[
+            'title'=> 'required',
+            'slug'=> 'required|unique:articles,slug,'.$id.',id',
+        ]);
+        if ($validation->fails()) {
+                return response()->json([
+                'status'=> false,
+                'errors'=> $validation->errors()
+            ]);
+        }
+
+        $article->title = $request->title;
+        $article->slug = Str::slug($request->slug);
+        $article->author = $request->author;
+        $article->content = $request->content;
+        $article->status = $request->status;
+        $article->save();
+        
+
+        if ($request->imageId > 0) {
+
+            $oldImage = $article->image;
+
+            $temp_image = TempImage::find($request->imageId);
+            
+            if ($temp_image != null) {
+                $extArr = explode('.',$temp_image->name);
+                $ext = last($extArr);
+                $imageName = strtotime('now').$article->id.'.'.$ext;
+
+                $source_path = public_path('uploads/temp/'.$temp_image->name);
+                $destination_path_large = public_path('uploads/articles/large/'.$imageName);
+                $destination_path_small = public_path('uploads/articles/small/'.$imageName);
+
+                $manager = new ImageManager(Driver::class);
+                $images = $manager->read($source_path);
+
+                $images->scaleDown(1200);
+                $images->save($destination_path_large);
+
+                $images->coverDown(450,300);
+                $images->save($destination_path_small);
+
+                $article->image = $imageName;
+                $article->save();
+
+                if ($oldImage != '') {
+                    File::delete(public_path('uploads/projects/large/'.$oldImage));
+                    File::delete(public_path('uploads/projects/small/'.$oldImage));
+                }
+            }
+        }
+        return response()->json([
+            'status'=>true,
+            'data'=>$article,
+            'message'=> 'success'
         ]);
     }
 }
