@@ -57,6 +57,10 @@ const EditProjects = ({ placeholder }) => {
   });
 
   const onSubmit = async (data) => {
+    if (!imageId) {
+      toast.error("Please upload/select an image before submitting.");
+      return;
+    }
     const newData = { ...data, description: content, imageId: imageId };
     const res = await fetch(apiUrl + "projects/" + params.id, {
       method: "PUT",

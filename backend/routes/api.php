@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\ArticleController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ProjectsController;
 use App\Http\Controllers\admin\ServicesController;
@@ -40,6 +41,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/projects/{id}', [ProjectsController::class, 'update']);
     Route::get('/projects/{id}', [ProjectsController::class, 'show']);
     Route::delete('/projects/{id}', [ProjectsController::class, 'destroy']);
+
+    //Article Routes
+    Route::post('/article', [ArticleController::class, 'store']);
 
 
     //image uploads route
