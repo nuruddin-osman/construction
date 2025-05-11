@@ -10,8 +10,8 @@ import { toast } from "react-toastify";
 
 const EditProjects = ({ placeholder }) => {
   const [content, setContent] = useState("");
-  const [imageFind, setImageFind] = useState("");
-  const [imageId, setImageId] = useState("");
+  const [imageFind, setImageFind] = useState([]);
+  const [imageId, setImageId] = useState(null);
   const editor = useRef(null);
   const params = useParams();
   //   console.log(imageFind.image);

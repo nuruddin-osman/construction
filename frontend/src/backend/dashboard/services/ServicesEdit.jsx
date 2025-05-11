@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 const ServicesEdit = ({ placeholder }) => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
-  const [services, setServices] = useState("");
+  const [services, setServices] = useState([]);
   const [imageId, setImageId] = useState(null);
 
   const params = useParams();
