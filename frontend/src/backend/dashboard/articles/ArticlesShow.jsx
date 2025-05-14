@@ -60,7 +60,7 @@ const ArticlesShow = () => {
                           <td>{item.id}</td>
                           <td>{item.title}</td>
                           <td>{item.slug}</td>
-                          <td>{item.short_desc}</td>
+                          <td>{item.content}</td>
                           <td
                             dangerouslySetInnerHTML={{
                               __html: item.description,
