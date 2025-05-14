@@ -1,10 +1,73 @@
-import React from "react";
+import React, { useState, useRef, useMemo } from "react";
 import Navbars from "../../../components/navbar/Navbar";
 import Sidebar from "../sidebar/Index";
 import { Link } from "react-router-dom";
 import Footer from "../../../components/footer/Footer";
+import { apiUrl, token } from "../common/Http";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import JoditEditor from "jodit-react";
 
-const ArticlesCreate = () => {
+const ArticlesCreate = ({ placeholder }) => {
+  const [imageId, setImageId] = useState(null);
+  const editor = useRef(null);
+  const [content, setContent] = useState("");
+
+  const config = useMemo(
+    () => ({
+      readonly: false, // all options from https://xdsoft.net/jodit/docs/,
+      placeholder: placeholder || "",
+    }),
+    [placeholder]
+  );
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    const newData = { ...data, content: content, imageId: imageId };
+    const res = await fetch(apiUrl + "article", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `bearer ${token()}`,
+      },
+      body: JSON.stringify(newData),
+    });
+    const result = await res.json();
+    if (result.status == true) {
+      toast.success(result.message);
+    } else {
+      toast.error("Credential error");
+    }
+  };
+
+  const handleFile = async (e) => {
+    const fileObject = new FormData();
+    const file = e.target.files[0];
+    fileObject.append("image", file);
+
+    await fetch(apiUrl + "temp-image", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `bearer ${token()}`,
+      },
+      body: fileObject,
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status == true) {
+          setImageId(result.data.id);
+        } else {
+          console.log(result.errors.image[0]);
+        }
+      });
+  };
   return (
     <>
       <Navbars />
@@ -16,21 +79,32 @@ const ArticlesCreate = () => {
             <div className="main_part shadow p-3">
               <div className="servies_header py-2">
                 <h4>Services ducumantation</h4>
-                <Link to="/admin/services" className="btn btn-primary">
+                <Link to="/admin/articles" className="btn btn-primary">
                   Back
                 </Link>
               </div>
               <div className="tables">
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="title">Title</label>
                     <input
                       type="text"
                       id="title"
                       name="title"
+                      className={`form-control ${
+                        errors.title ? "is-invalid" : ""
+                      }`}
                       placeholder="Please type your name"
+                      {...register("title", {
+                        required: "the title fields is required",
+                      })}
                     />
                   </div>
+                  {errors.title && (
+                    <div className="invalid-feedback">
+                      {errors.title.message}
+                    </div>
+                  )}
 
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="slug">Slug</label>
@@ -38,38 +112,55 @@ const ArticlesCreate = () => {
                       type="text"
                       id="slug"
                       name="slug"
+                      className={`form-control ${
+                        errors.slug ? "is-invalid" : ""
+                      }`}
                       placeholder="Please type your slug"
+                      {...register("slug", {
+                        required: "the slug fields is required",
+                      })}
                     />
                   </div>
-
-                  <div className="d-flex gap-3 align-items-center py-4">
-                    <label htmlFor="short_desc">Short_desc</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      id="short_desc"
-                      name="short_desc"
-                      placeholder="Please type your short_desc"
-                    />
-                  </div>
+                  {errors.slug && (
+                    <div className="invalid-feedback">
+                      {errors.slug.message}
+                    </div>
+                  )}
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="description">Description</label>
+                    <JoditEditor
+                      ref={editor}
+                      value={content}
+                      config={config}
+                      tabIndex={1} // tabIndex of textarea
+                      onBlur={(newContent) => setContent(newContent)}
+                      onChange={(newContent) => setContent(newContent)}
+                    />
+                  </div>
+                  <div className="d-flex gap-3 align-items-center py-4">
+                    <label htmlFor="description">Author</label>
                     <input
                       className="form-control"
                       type="text"
-                      id="description"
-                      name="description"
+                      id="author"
+                      name="author"
+                      {...register("author")}
                       placeholder="Please type your short_desc"
                     />
                   </div>
 
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="image">Image</label>
-                    <input type="file" />
+                    <input onChange={handleFile} type="file" />
                   </div>
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="status">Status</label>
-                    <select className="form-control" id="status" name="status">
+                    <select
+                      {...register("status")}
+                      className="form-control"
+                      id="status"
+                      name="status"
+                    >
                       <option value="1">Active</option>
                       <option value="0">Block</option>
                     </select>
