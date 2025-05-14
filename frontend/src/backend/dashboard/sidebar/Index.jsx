@@ -14,7 +14,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <Link to="#" className="items  ">
+          <Link to="/admin/articles" className="items  ">
             Blogs
           </Link>
         </li>
