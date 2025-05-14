@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbars from "../../../components/navbar/Navbar";
 import Sidebar from "../sidebar/Index";
 import { Link } from "react-router-dom";
 import Footer from "../../../components/footer/Footer";
+import { apiUrl, token } from "../common/Http";
 
 const ArticlesShow = () => {
+  const [articles, setArticles] = useState("");
+  const fetchApi = async () => {
+    const res = await fetch(apiUrl + "article", {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `bearer ${token()}`,
+      },
+    });
+    const result = await res.json();
+    if (result.status == true) {
+      setArticles(result.data);
+    }
+  };
+
+  useEffect(() => {
+    fetchApi();
+  }, []);
   return (
     <>
       <Navbars />
@@ -33,9 +53,9 @@ const ArticlesShow = () => {
                       <th>Action</th>
                     </tr>
                   </thead>
-                  {/* <tbody>
-                    {servicesData &&
-                      servicesData.map((item) => (
+                  <tbody>
+                    {articles &&
+                      articles.map((item) => (
                         <tr key={item.id}>
                           <td>{item.id}</td>
                           <td>{item.title}</td>
@@ -66,7 +86,7 @@ const ArticlesShow = () => {
                           </td>
                         </tr>
                       ))}
-                  </tbody> */}
+                  </tbody>
                 </table>
               </div>
             </div>
