@@ -21,6 +21,7 @@ import ProjectsCreate from "./backend/dashboard/projects/ProjectsCreate";
 import EditProjects from "./backend/dashboard/projects/EditProjects";
 import ArticlesShow from "./backend/dashboard/articles/ArticlesShow";
 import ArticlesCreate from "./backend/dashboard/articles/ArticlesCreate";
+import ArticlesEdit from "./backend/dashboard/articles/ArticlesEdit";
 
 const App = () => {
   return (
@@ -102,6 +103,14 @@ const App = () => {
           element={
             <RequiredAuth>
               <ArticlesCreate />
+            </RequiredAuth>
+          }
+        />
+        <Route
+          path="/admin/articles/edit/:id"
+          element={
+            <RequiredAuth>
+              <ArticlesEdit />
             </RequiredAuth>
           }
         />

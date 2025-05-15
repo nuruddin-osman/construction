@@ -47,8 +47,8 @@ const ArticlesShow = () => {
                       <th>ID</th>
                       <th>Title</th>
                       <th>Slug</th>
-                      <th>Short_desc</th>
-                      <th>Description</th>
+                      <th>Content</th>
+                      <th>Author</th>
                       <th>status</th>
                       <th>Action</th>
                     </tr>
@@ -60,17 +60,15 @@ const ArticlesShow = () => {
                           <td>{item.id}</td>
                           <td>{item.title}</td>
                           <td>{item.slug}</td>
-                          <td>{item.content}</td>
                           <td
-                            dangerouslySetInnerHTML={{
-                              __html: item.description,
-                            }}
+                            dangerouslySetInnerHTML={{ __html: item.content }}
                           />
+                          <td>{item.author}</td>
                           <td>{item.status == 1 ? "Active" : "Block"}</td>
                           <td>
                             <div className="td_action">
                               <Link
-                                to={`/admin/services/edit/${item.id}`}
+                                to={`/admin/articles/edit/${item.id}`}
                                 className="btn-small"
                               >
                                 edit
