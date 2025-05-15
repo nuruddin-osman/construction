@@ -2,13 +2,19 @@ import React, { useState, useRef, useMemo } from "react";
 import Footer from "../../../components/footer/Footer";
 import Navbars from "../../../components/navbar/Navbar";
 import Sidebar from "../sidebar/Index";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import JoditEditor from "jodit-react";
+import { apiUrl, imageUrl, token } from "../common/Http";
+import { toast } from "react-toastify";
 
 const ArticlesEdit = ({ placeholder }) => {
+  const [imageId, setImageId] = useState(null);
+  const [findImage, setFindImage] = useState("");
   const editor = useRef(null);
   const [content, setContent] = useState("");
+  const params = useParams();
+  const navigate = useNavigate();
 
   const config = useMemo(
     () => ({
@@ -23,9 +29,70 @@ const ArticlesEdit = ({ placeholder }) => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: async () => {
+      const res = await fetch(apiUrl + "article/" + params.id, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/josn",
+          Authorization: `bearer ${token()}`,
+        },
+      });
+      const result = await res.json();
+      if (result.status == true) {
+        setContent(result.data.content);
+        setFindImage(result.data);
+        return {
+          title: result.data.title,
+          slug: result.data.slug,
+          author: result.data.author,
+          status: result.data.status,
+        };
+      }
+    },
+  });
 
-  const onSubmit = (data) => console.log({ ...data, content: content });
+  const onSubmit = async (data) => {
+    const newData = { ...data, content: content, imageId: imageId };
+    const res = await fetch(apiUrl + "article/" + params.id, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `bearer ${token()}`,
+      },
+      body: JSON.stringify(newData),
+    });
+    const result = await res.json();
+    if (result.status == true) {
+      toast.success(result.message);
+      setTimeout(() => {
+        navigate("/admin/articles");
+      }, 2000);
+    }
+  };
+
+  const handleFile = async (e) => {
+    const fileObject = new FormData();
+    const file = e.target.files[0];
+    fileObject.append("image", file);
+
+    await fetch(apiUrl + "temp-image", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `bearer ${token()}`,
+      },
+      body: fileObject,
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status == true) {
+          setImageId(result.data.id);
+        }
+      });
+  };
   return (
     <>
       <Navbars />
@@ -107,8 +174,22 @@ const ArticlesEdit = ({ placeholder }) => {
                   </div>
 
                   <div className="d-flex gap-3 align-items-center py-4">
-                    <label htmlFor="image">Image</label>
-                    <input type="file" />
+                    <div className="">
+                      <label htmlFor="image">Image</label>
+                      <input onChange={handleFile} type="file" />
+                    </div>
+                    <div className="servicesAdminImage">
+                      {findImage.image && (
+                        <img
+                          src={
+                            imageUrl +
+                            "uploads/articles/large/" +
+                            findImage.image
+                          }
+                          alt={findImage.image}
+                        />
+                      )}
+                    </div>
                   </div>
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="status">Status</label>
