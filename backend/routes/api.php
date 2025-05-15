@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\ProjectsController;
 use App\Http\Controllers\admin\ServicesController;
 use App\Http\Controllers\admin\TempImageController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\frontend\articles\ArticlesController;
 use App\Http\Controllers\frontend\projects\ProjectsController as ProjectsProjectsController;
 use App\Http\Controllers\frontend\services\ServicesController as ServicesServicesController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,8 @@ Route::get('/get-services',[ServicesServicesController::class, 'index']);
 Route::get('/limit-services',[ServicesServicesController::class, 'limitedServices']);
 Route::get('get-projects',[ProjectsProjectsController::class, 'index']);
 Route::get("get-latest-projects", [ProjectsProjectsController::class, 'latestProjects']);
+Route::get("get-articles", [ArticlesController::class, 'index']);
+Route::get("latest-articles", [ArticlesController::class, 'latestItem']);
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
