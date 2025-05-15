@@ -4,9 +4,10 @@ import Sidebar from "../sidebar/Index";
 import { Link } from "react-router-dom";
 import Footer from "../../../components/footer/Footer";
 import { apiUrl, token } from "../common/Http";
+import { toast } from "react-toastify";
 
 const ArticlesShow = () => {
-  const [articles, setArticles] = useState("");
+  const [articles, setArticles] = useState(null);
   const fetchApi = async () => {
     const res = await fetch(apiUrl + "article", {
       method: "GET",
@@ -25,6 +26,24 @@ const ArticlesShow = () => {
   useEffect(() => {
     fetchApi();
   }, []);
+
+  const handleDelete = async (id) => {
+    if (confirm("Are you sure this item is delete")) {
+      const res = await fetch(apiUrl + "article/" + id, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          Authorization: `bearer ${token()}`,
+        },
+      });
+      const result = await res.json();
+      if (result.status == true) {
+        const filterItems = articles.filter((item) => item.id != id);
+        setArticles(filterItems);
+        toast.success(result.message);
+      }
+    }
+  };
   return (
     <>
       <Navbars />
