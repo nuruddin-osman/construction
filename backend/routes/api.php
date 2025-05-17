@@ -62,7 +62,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/testimonials',[TestimonialsController::class, 'index']);
     Route::put('/testimonials/{id}',[TestimonialsController::class, 'update']);
     Route::get('/testimonials/{id}',[TestimonialsController::class, 'show']);
-
-
+    Route::delete('/testimonials/{id}',[TestimonialsController::class, 'destroy']);
 
 });

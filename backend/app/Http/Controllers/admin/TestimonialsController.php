@@ -152,4 +152,21 @@ class TestimonialsController extends Controller
             "message"=>'successfully fetched this items'
         ]);
     }
+    public function destroy($id){
+        $testimonials = Testimonials::find($id);
+        if ($testimonials == null) {
+            return response()->json([
+                'status'=> false,
+                'errors'=> 'this testimonials items is not found'
+            ]);
+        }
+        $testimonials->delete();
+
+        File::delete(public_path('uploads/testimonials/'.$testimonials->image));
+
+        return response()->json([
+            'status'=> true,
+            'message'=> 'This item delete successfully'
+        ]);
+    }
 }
