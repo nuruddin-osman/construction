@@ -12,14 +12,20 @@ use Intervention\Image\ImageManager;
 
 class TestimonialsController extends Controller
 {
-            // $table->id();
-            // $table->integer('rating')->nullable();
-            // $table->string('title');
-            // $table->text('description')->nullable();
-            // $table->string('image')->nullable();
-            // $table->string('name');
-            // $table->string('designation')->nullable();
-            // $table->integer('status')->nullable();
+    public function index(){
+        $testimonials = Testimonials::orderBy('created_at', 'DESC')->get();
+        if ($testimonials == null) {
+            return response()->json([
+                'status'=>false,
+                'errors'=>"items is not found"
+            ]);
+        }
+        return response()->json([
+            'status'=> true,
+            'data'=> $testimonials,
+            "message"=>'successfully fetched this items'
+        ]);
+    }
     public function store(Request $request){
         $validation = Validator::make($request->all(),[
             'title'=> "required",
