@@ -30,6 +30,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // Protected route
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::post('/logout', [AuthenticationController::class, 'logout']);
+    
+    //image uploads route
+    Route::post('/temp-image', [TempImageController::class, 'store']);
+
 
     // Servicces route
     Route::post('/services', [ServicesController::class, 'store']);
@@ -53,7 +57,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/article/{id}', [ArticleController::class, 'destroy']);
 
 
-    //image uploads route
-    Route::post('/temp-image', [TempImageController::class, 'store']);
 
 });

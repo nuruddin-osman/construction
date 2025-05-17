@@ -31,7 +31,7 @@ const Projects = () => {
         <div className="row">
           {latestProjects &&
             latestProjects.map((item) => (
-              <div className="col-md-3">
+              <div key={item.id} className="col-md-3">
                 <Card className="card_head">
                   <Card.Img
                     variant="top"

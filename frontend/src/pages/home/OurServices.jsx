@@ -14,7 +14,6 @@ const OurServices = () => {
       setServices(result.data);
     }
   };
-  console.log(services);
 
   useEffect(() => {
     fetchApi();
@@ -33,7 +32,7 @@ const OurServices = () => {
         <div className="row">
           {services &&
             services.map((item) => (
-              <div className="col-md-3">
+              <div key={item.id} className="col-md-3">
                 <Card className="card_head">
                   <Card.Img
                     variant="top"

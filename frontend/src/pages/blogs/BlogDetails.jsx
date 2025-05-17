@@ -1,24 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BlogsImg from "../../../public/assets/images/engineer-4925140_1280.jpg";
+import { apiUrl, imageUrl } from "../../backend/dashboard/common/Http";
 const BlogDetails = () => {
+  const [articles, setArticles] = useState([]);
+  const fetchApi = async () => {
+    const res = await fetch(apiUrl + "latest-articles?limit=1", {
+      method: "GET",
+    });
+    const result = await res.json();
+    if (result.status == true) {
+      setArticles(result.data[0]);
+    }
+  };
+  useEffect(() => {
+    fetchApi();
+  }, []);
+
   return (
     <div>
       <h2>Key Elements of Civil Construction within the construction</h2>
       <span>by Mark on 01 Feb, 2025</span>
       <div className="w-100 mt-3">
-        <img className="w-100 " src={BlogsImg} alt="Blogs Img" />
+        <img
+          className="w-100 "
+          src={
+            articles.image &&
+            `${imageUrl}uploads/articles/large/${articles.image}`
+          }
+          alt="Blogs Img"
+        />
       </div>
       <div className="mt-3">
-        <article>
-          Civil construction is a core sector within the construction industry
-          that focuses on the design, development, and maintenance of
-          infrastructure that supports modern society. This sector encompasses a
-          wide array of projects, including the construction of roads, bridges,
-          tunnels, dams, airports, railways, and water supply systems. The
-          primary objective of civil construction is to create and maintain the
-          physical infrastructure that enables communities and economies to
-          function and grow.
-        </article>
+        <article>{articles.title}</article>
         <br />
         <article>
           Civil construction projects are often large-scale and involve complex
