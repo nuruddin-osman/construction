@@ -60,6 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
     //testimonials routes
     Route::post('/testimonials',[TestimonialsController::class, 'store']);
     Route::get('/testimonials',[TestimonialsController::class, 'index']);
+    Route::put('/testimonials/{id}',[TestimonialsController::class, 'update']);
 
 
 
