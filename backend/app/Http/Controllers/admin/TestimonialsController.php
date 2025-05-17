@@ -138,4 +138,18 @@ class TestimonialsController extends Controller
             'message'=> 'This items updated successfully',
         ]);
     }
+    public function show($id){
+        $testimonials = Testimonials::find($id);
+        if ($testimonials == null) {
+            return response()->json([
+                'status'=>false,
+                'errors'=>"item is not found"
+            ]);
+        }
+        return response()->json([
+            'status'=> true,
+            'data'=> $testimonials,
+            "message"=>'successfully fetched this items'
+        ]);
+    }
 }
