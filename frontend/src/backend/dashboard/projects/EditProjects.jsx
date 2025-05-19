@@ -84,7 +84,7 @@ const EditProjects = ({ placeholder }) => {
     const file = e.target.files[0];
     formImage.append("image", file);
 
-    fetch(apiUrl + "temp-image", {
+    await fetch(apiUrl + "temp-image", {
       method: "POST",
       headers: {
         Accept: "application/json",

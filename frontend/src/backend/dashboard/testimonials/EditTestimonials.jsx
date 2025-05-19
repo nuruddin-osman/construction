@@ -1,38 +1,62 @@
 import React, { useState, useRef, useMemo } from "react";
 import JoditEditor from "jodit-react";
-import { useForm } from "react-hook-form";
-import Footer from "../../../components/footer/Footer";
-import { Link, useNavigate } from "react-router-dom";
-import Sidebar from "../sidebar/Index";
 import Navbars from "../../../components/navbar/Navbar";
-import { apiUrl, token } from "../common/Http";
+import Sidebar from "../sidebar/Index";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Footer from "../../../components/footer/Footer";
+import { useForm } from "react-hook-form";
+import { apiUrl, imageUrl, token } from "../common/Http";
 import { toast } from "react-toastify";
 
-const CreateTestimonials = ({ placeholder }) => {
+const EditTestimonials = ({ placeholder }) => {
   const [content, setContent] = useState("");
+  const [imageFind, setImageFind] = useState([]);
   const [imageId, setImageId] = useState("");
+  const params = useParams();
   const editor = useRef(null);
   const navigate = useNavigate();
 
   const config = useMemo(
     () => ({
-      readonly: false, // all options from https://xdsoft.net/jodit/docs/,
+      readonly: false,
       placeholder: placeholder || "",
     }),
     [placeholder]
   );
-
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: async () => {
+      const res = await fetch(apiUrl + "testimonials/" + params.id, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `bearer ${token()}`,
+        },
+      });
+      const result = await res.json();
+      if (result.status == true) {
+        setContent(result.data.description);
+        setImageFind(result.data);
+        return {
+          title: result.data.title,
+          name: result.data.name,
+          rating: result.data.rating,
+          status: result.data.status,
+          designation: result.data.designation,
+        };
+      }
+    },
+  });
 
   const onSubmit = async (data) => {
     const newData = { ...data, description: content, imageId: imageId };
-    const res = await fetch(apiUrl + "testimonials", {
-      method: "POST",
+    const res = await fetch(apiUrl + "testimonials/" + params.id, {
+      method: "PUT",
       headers: {
         "content-type": "application/json",
         Accept: "application/json",
@@ -64,12 +88,13 @@ const CreateTestimonials = ({ placeholder }) => {
     })
       .then((response) => response.json())
       .then((result) => {
-        if (result.status == true) {
+        if (result.status == false) {
+          toast.success(result.errors);
+        } else {
           setImageId(result.data.id);
         }
       });
   };
-
   return (
     <>
       <Navbars />
@@ -90,6 +115,9 @@ const CreateTestimonials = ({ placeholder }) => {
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="title">Title</label>
                     <input
+                      {...register("title", {
+                        required: "The title fields is required",
+                      })}
                       className={`form-control ${
                         errors.title ? "is-invalid" : ""
                       }`}
@@ -97,9 +125,6 @@ const CreateTestimonials = ({ placeholder }) => {
                       id="title"
                       name="title"
                       placeholder="Please type your name"
-                      {...register("title", {
-                        required: "this title is required",
-                      })}
                     />
                   </div>
                   {errors.title && (
@@ -107,20 +132,19 @@ const CreateTestimonials = ({ placeholder }) => {
                       {errors.title.message}
                     </span>
                   )}
-
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="name">Name</label>
                     <input
+                      {...register("name", {
+                        required: "The title fields is required",
+                      })}
+                      className={`form-control ${
+                        errors.name ? "is-invalid" : ""
+                      }`}
                       type="text"
                       id="name"
                       name="name"
                       placeholder="Please type your name"
-                      className={`form-control ${
-                        errors.name ? "is-invalid" : ""
-                      }`}
-                      {...register("name", {
-                        required: "this name is required",
-                      })}
                     />
                   </div>
                   {errors.name && (
@@ -131,12 +155,12 @@ const CreateTestimonials = ({ placeholder }) => {
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="designation">Designation</label>
                     <input
+                      {...register("designation")}
                       className="form-control"
                       type="text"
                       id="designation"
                       name="designation"
                       placeholder="Please type your rating"
-                      {...register("designation")}
                     />
                   </div>
                   <div className="d-flex gap-3 align-items-center py-4">
@@ -152,8 +176,21 @@ const CreateTestimonials = ({ placeholder }) => {
                   </div>
 
                   <div className="d-flex gap-3 align-items-center py-4">
-                    <label htmlFor="image">Image</label>
-                    <input onChange={handleFile} type="file" />
+                    <div className="">
+                      <label htmlFor="image">Image</label>
+                      <input onChange={handleFile} type="file" />
+                    </div>
+                    <div className="servicesAdminImage">
+                      {imageFind.image && (
+                        <img
+                          src={
+                            imageFind.image &&
+                            imageUrl + "uploads/testimonials/" + imageFind.image
+                          }
+                          alt={imageFind.image}
+                        />
+                      )}
+                    </div>
                   </div>
                   <div className="row">
                     <div className="d-flex gap-3 align-items-center py-4 col-md-6">
@@ -198,4 +235,4 @@ const CreateTestimonials = ({ placeholder }) => {
   );
 };
 
-export default CreateTestimonials;
+export default EditTestimonials;

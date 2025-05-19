@@ -73,7 +73,7 @@ const ShowTestimonials = () => {
                           <td>
                             <div className="td_action">
                               <Link
-                                to={`/admin/services/edit/${item.id}`}
+                                to={`/admin/testimonials/edit/${item.id}`}
                                 className="btn-small"
                               >
                                 edit
