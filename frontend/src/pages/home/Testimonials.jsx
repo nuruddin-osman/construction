@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import { MdOutlineStar } from "react-icons/md";
-import ChooseIcon_1 from "../../../public/assets/images/pexels-pixabay-220453.jpg";
+import { MdStar, MdOutlineStar } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import "swiper/css";
@@ -70,11 +69,19 @@ const Testimonials = () => {
                 <SwiperSlide>
                   <Card className="card_head shadow">
                     <div className="card_icon">
-                      <MdOutlineStar />
-                      <MdOutlineStar />
-                      <MdOutlineStar />
-                      <MdOutlineStar />
+                      {[...Array(item.rating)].map((_, index) => (
+                        <MdOutlineStar key={index} />
+                      ))}
                     </div>
+                    {/* <div className="card_icon">
+                      {[...Array(5)].map((_, i) =>
+                        i < item.rating ? (
+                          <MdOutlineStar key={i} className="filled" />
+                        ) : (
+                          <MdOutlineStar key={i} />
+                        )
+                      )}
+                    </div> */}
                     <Card.Body className="card_body">
                       <Card.Title className="pb-3">{item.title}</Card.Title>
                       <div className="service_content">

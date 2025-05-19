@@ -22,6 +22,7 @@ const CreateTestimonials = ({ placeholder }) => {
     [placeholder]
   );
 
+  const plainText = content.replace(/<[^>]*>/g, "");
   const {
     register,
     handleSubmit,
@@ -30,7 +31,7 @@ const CreateTestimonials = ({ placeholder }) => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const newData = { ...data, description: content, imageId: imageId };
+    const newData = { ...data, description: plainText, imageId: imageId };
     const res = await fetch(apiUrl + "testimonials", {
       method: "POST",
       headers: {
