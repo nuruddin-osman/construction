@@ -39,6 +39,11 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
+          <Link to="/admin/testimonials" className="items  ">
+            Testimonials
+          </Link>
+        </li>
+        <li>
           <button onClick={logout} className="items btn-primary">
             logout
           </button>

@@ -22,6 +22,7 @@ import EditProjects from "./backend/dashboard/projects/EditProjects";
 import ArticlesShow from "./backend/dashboard/articles/ArticlesShow";
 import ArticlesCreate from "./backend/dashboard/articles/ArticlesCreate";
 import ArticlesEdit from "./backend/dashboard/articles/ArticlesEdit";
+import ShowTestimonials from "./backend/dashboard/testimonials/ShowTestimonials";
 
 const App = () => {
   return (
@@ -111,6 +112,14 @@ const App = () => {
           element={
             <RequiredAuth>
               <ArticlesEdit />
+            </RequiredAuth>
+          }
+        />
+        <Route
+          path="/admin/testimonials"
+          element={
+            <RequiredAuth>
+              <ShowTestimonials />
             </RequiredAuth>
           }
         />
