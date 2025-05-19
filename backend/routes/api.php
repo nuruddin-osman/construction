@@ -10,6 +10,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\frontend\articles\ArticlesController;
 use App\Http\Controllers\frontend\projects\ProjectsController as ProjectsProjectsController;
 use App\Http\Controllers\frontend\services\ServicesController as ServicesServicesController;
+use App\Http\Controllers\frontend\testimonials\TestimonialsController as TestimonialsTestimonialsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -22,6 +23,8 @@ Route::get('get-projects',[ProjectsProjectsController::class, 'index']);
 Route::get("get-latest-projects", [ProjectsProjectsController::class, 'latestProjects']);
 Route::get("get-articles", [ArticlesController::class, 'index']);
 Route::get("latest-articles", [ArticlesController::class, 'latestItem']);
+Route::get("get-testimonials", [TestimonialsTestimonialsController::class, 'index']);
+Route::get("latest-testimonials", [TestimonialsTestimonialsController::class, 'latestItem']);
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
