@@ -17,8 +17,6 @@ const ShowTestimonials = () => {
     });
     const result = await res.json();
     if (result.status == true) {
-      console.log(result);
-
       setTestimonials(result.data);
     }
   };
@@ -36,7 +34,10 @@ const ShowTestimonials = () => {
             <div className="main_part shadow p-3">
               <div className="servies_header py-2">
                 <h4>Services ducumantation</h4>
-                <Link to="/admin/services/create" className="btn btn-primary">
+                <Link
+                  to="/admin/testimonials/create"
+                  className="btn btn-primary"
+                >
                   Create
                 </Link>
               </div>
