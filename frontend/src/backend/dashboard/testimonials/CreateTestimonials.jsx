@@ -147,7 +147,7 @@ const CreateTestimonials = ({ placeholder }) => {
                       config={config}
                       tabIndex={1} // tabIndex of textarea
                       onBlur={(newContent) => setContent(newContent)}
-                      onChange={(newContent) => {}}
+                      onChange={(newContent) => setContent(newContent)}
                     />
                   </div>
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { MdOutlineStar } from "react-icons/md";
@@ -9,10 +9,24 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-
 import "swiper/css";
+import { apiUrl, imageUrl } from "../../backend/dashboard/common/Http";
 
 const Testimonials = () => {
+  const [datas, setDatas] = useState([]);
+  const fetchApi = async () => {
+    const res = await fetch(apiUrl + "get-testimonials", {
+      method: "GET",
+    });
+    const result = await res.json();
+    if (result.status == true) {
+      setDatas(result.data);
+    }
+  };
+  useEffect(() => {
+    fetchApi();
+  }, []);
+
   return (
     <div className="testimonial py-5">
       <div className="text-center">
@@ -51,198 +65,43 @@ const Testimonials = () => {
               },
             }}
           >
-            <SwiperSlide>
-              <Card className="card_head shadow">
-                <div className="card_icon">
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                </div>
-                <Card.Body className="card_body">
-                  <Card.Title className="pb-3">
-                    Cutting-Edge Solutions
-                  </Card.Title>
-                  <div className="service_content">
-                    <Card.Text className="mb-2">
-                      Small actions create big impacts. It all begins and ends
-                      with each employee committing to safer work practices
-                      daily, ensuring they return home safely.
-                    </Card.Text>
-                  </div>
-                </Card.Body>
-                <hr className="card_hr" />
-                <div className="card_footer">
-                  <div className="card_footer_icon">
-                    <img src={ChooseIcon_1} alt="ChooseIcon woner" />
-                  </div>
-                  <div className="card_footer_name">
-                    <h4>John Doe</h4>
-                    <h6>CEO, XYZ Company</h6>
-                  </div>
-                </div>
-              </Card>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Card className="card_head shadow">
-                <div className="card_icon">
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                </div>
-                <Card.Body className="card_body">
-                  <Card.Title className="pb-3">
-                    Cutting-Edge Solutions
-                  </Card.Title>
-                  <div className="service_content">
-                    <Card.Text className="mb-2">
-                      Small actions create big impacts. It all begins and ends
-                      with each employee committing to safer work practices
-                      daily, ensuring they return home safely.
-                    </Card.Text>
-                  </div>
-                </Card.Body>
-                <hr className="card_hr" />
-                <div className="card_footer">
-                  <div className="card_footer_icon">
-                    <img src={ChooseIcon_1} alt="ChooseIcon woner" />
-                  </div>
-                  <div className="card_footer_name">
-                    <h4>John Doe</h4>
-                    <h6>CEO, XYZ Company</h6>
-                  </div>
-                </div>
-              </Card>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Card className="card_head shadow">
-                <div className="card_icon">
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                </div>
-                <Card.Body className="card_body">
-                  <Card.Title className="pb-3">
-                    Cutting-Edge Solutions
-                  </Card.Title>
-                  <div className="service_content">
-                    <Card.Text className="mb-2">
-                      Small actions create big impacts. It all begins and ends
-                      with each employee committing to safer work practices
-                      daily, ensuring they return home safely.
-                    </Card.Text>
-                  </div>
-                </Card.Body>
-                <hr className="card_hr" />
-                <div className="card_footer">
-                  <div className="card_footer_icon">
-                    <img src={ChooseIcon_1} alt="ChooseIcon woner" />
-                  </div>
-                  <div className="card_footer_name">
-                    <h4>John Doe</h4>
-                    <h6>CEO, XYZ Company</h6>
-                  </div>
-                </div>
-              </Card>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Card className="card_head shadow">
-                <div className="card_icon">
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                </div>
-                <Card.Body className="card_body">
-                  <Card.Title className="pb-3">
-                    Cutting-Edge Solutions
-                  </Card.Title>
-                  <div className="service_content">
-                    <Card.Text className="mb-2">
-                      Small actions create big impacts. It all begins and ends
-                      with each employee committing to safer work practices
-                      daily, ensuring they return home safely.
-                    </Card.Text>
-                  </div>
-                </Card.Body>
-                <hr className="card_hr" />
-                <div className="card_footer">
-                  <div className="card_footer_icon">
-                    <img src={ChooseIcon_1} alt="ChooseIcon woner" />
-                  </div>
-                  <div className="card_footer_name">
-                    <h4>John Doe</h4>
-                    <h6>CEO, XYZ Company</h6>
-                  </div>
-                </div>
-              </Card>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Card className="card_head shadow">
-                <div className="card_icon">
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                </div>
-                <Card.Body className="card_body">
-                  <Card.Title className="pb-3">
-                    Cutting-Edge Solutions
-                  </Card.Title>
-                  <div className="service_content">
-                    <Card.Text className="mb-2">
-                      Small actions create big impacts. It all begins and ends
-                      with each employee committing to safer work practices
-                      daily, ensuring they return home safely.
-                    </Card.Text>
-                  </div>
-                </Card.Body>
-                <hr className="card_hr" />
-                <div className="card_footer">
-                  <div className="card_footer_icon">
-                    <img src={ChooseIcon_1} alt="ChooseIcon woner" />
-                  </div>
-                  <div className="card_footer_name">
-                    <h4>John Doe</h4>
-                    <h6>CEO, XYZ Company</h6>
-                  </div>
-                </div>
-              </Card>
-            </SwiperSlide>
-            <SwiperSlide>
-              <Card className="card_head shadow">
-                <div className="card_icon">
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                  <MdOutlineStar />
-                </div>
-                <Card.Body className="card_body">
-                  <Card.Title className="pb-3">
-                    Cutting-Edge Solutions
-                  </Card.Title>
-                  <div className="service_content">
-                    <Card.Text className="mb-2">
-                      Small actions create big impacts. It all begins and ends
-                      with each employee committing to safer work practices
-                      daily, ensuring they return home safely.
-                    </Card.Text>
-                  </div>
-                </Card.Body>
-                <hr className="card_hr" />
-                <div className="card_footer">
-                  <div className="card_footer_icon">
-                    <img src={ChooseIcon_1} alt="ChooseIcon woner" />
-                  </div>
-                  <div className="card_footer_name">
-                    <h4>John Doe</h4>
-                    <h6>CEO, XYZ Company</h6>
-                  </div>
-                </div>
-              </Card>
-            </SwiperSlide>
+            {datas &&
+              datas.map((item) => (
+                <SwiperSlide>
+                  <Card className="card_head shadow">
+                    <div className="card_icon">
+                      <MdOutlineStar />
+                      <MdOutlineStar />
+                      <MdOutlineStar />
+                      <MdOutlineStar />
+                    </div>
+                    <Card.Body className="card_body">
+                      <Card.Title className="pb-3">{item.title}</Card.Title>
+                      <div className="service_content">
+                        <Card.Text className="mb-2">
+                          {item.description}
+                        </Card.Text>
+                      </div>
+                    </Card.Body>
+                    <hr className="card_hr" />
+                    <div className="card_footer">
+                      <div className="card_footer_icon">
+                        <img
+                          src={
+                            item.image &&
+                            imageUrl + "uploads/testimonials/" + item.image
+                          }
+                          alt="ChooseIcon woner"
+                        />
+                      </div>
+                      <div className="card_footer_name">
+                        <h4>{item.name}</h4>
+                        <h6>{item.designation}</h6>
+                      </div>
+                    </div>
+                  </Card>
+                </SwiperSlide>
+              ))}
           </Swiper>
         </div>
       </div>
