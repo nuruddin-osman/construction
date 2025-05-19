@@ -2,15 +2,17 @@ import React, { useState, useRef, useMemo } from "react";
 import JoditEditor from "jodit-react";
 import { useForm } from "react-hook-form";
 import Footer from "../../../components/footer/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "../sidebar/Index";
 import Navbars from "../../../components/navbar/Navbar";
 import { apiUrl, token } from "../common/Http";
 import { toast } from "react-toastify";
 
 const CreateTestimonials = ({ placeholder }) => {
-  const editor = useRef(null);
   const [content, setContent] = useState("");
+  const [imageId, setImageId] = useState("");
+  const editor = useRef(null);
+  const navigate = useNavigate();
 
   const config = useMemo(
     () => ({
@@ -28,7 +30,7 @@ const CreateTestimonials = ({ placeholder }) => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const newData = { ...data, description: content };
+    const newData = { ...data, description: content, imageId: imageId };
     const res = await fetch(apiUrl + "testimonials", {
       method: "POST",
       headers: {
@@ -41,8 +43,33 @@ const CreateTestimonials = ({ placeholder }) => {
     const result = await res.json();
     if (result.status == true) {
       toast.success(result.message);
+      setTimeout(() => {
+        navigate("/admin/testimonials");
+      }, 2000);
     }
   };
+
+  const handleFile = async (e) => {
+    const fileObject = new FormData();
+    const file = e.target.files[0];
+    fileObject.append("image", file);
+
+    const res = await fetch(apiUrl + "temp-image", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `bearer ${token()}`,
+      },
+      body: fileObject,
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status == true) {
+          setImageId(result.data.id);
+        }
+      });
+  };
+
   return (
     <>
       <Navbars />
@@ -126,7 +153,7 @@ const CreateTestimonials = ({ placeholder }) => {
 
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="image">Image</label>
-                    <input type="file" />
+                    <input onChange={handleFile} type="file" />
                   </div>
                   <div className="row">
                     <div className="d-flex gap-3 align-items-center py-4 col-md-6">
