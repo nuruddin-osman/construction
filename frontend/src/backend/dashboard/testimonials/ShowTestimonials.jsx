@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Navbars from "../../../components/navbar/Navbar";
 import Sidebar from "../sidebar/Index";
 import { apiUrl, token } from "../common/Http";
+import { toast } from "react-toastify";
 
 const ShowTestimonials = () => {
   const [testimonials, setTestimonials] = useState();
@@ -23,6 +24,24 @@ const ShowTestimonials = () => {
   useEffect(() => {
     fetchApi();
   }, []);
+
+  const handleDelete = async (id) => {
+    if (confirm("Are you sure this items permanently delete")) {
+      const res = await fetch(apiUrl + "testimonials/" + id, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          Authorization: `bearer ${token()}`,
+        },
+      });
+      const result = await res.json();
+      if (result.status == true) {
+        toast.success(result.message);
+        const filtereData = testimonials.filter((item) => item.id != id);
+        setTestimonials(filtereData);
+      }
+    }
+  };
   return (
     <>
       <Navbars />

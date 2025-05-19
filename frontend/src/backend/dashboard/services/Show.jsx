@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbars from "../../../components/navbar/Navbar";
 import Footer from "../../../components/footer/Footer";
 import Sidebar from "../sidebar/Index";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { apiUrl, token } from "../common/Http";
 import { toast } from "react-toastify";
 
