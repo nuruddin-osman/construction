@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\ArticleController;
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\OurTeamController;
 use App\Http\Controllers\admin\ProjectsController;
 use App\Http\Controllers\admin\ServicesController;
 use App\Http\Controllers\admin\TempImageController;
@@ -11,7 +12,6 @@ use App\Http\Controllers\frontend\articles\ArticlesController;
 use App\Http\Controllers\frontend\projects\ProjectsController as ProjectsProjectsController;
 use App\Http\Controllers\frontend\services\ServicesController as ServicesServicesController;
 use App\Http\Controllers\frontend\testimonials\TestimonialsController as TestimonialsTestimonialsController;
-use App\Http\Controllers\OurTeamController;
 use Illuminate\Support\Facades\Route;
 
 
