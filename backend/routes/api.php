@@ -11,6 +11,7 @@ use App\Http\Controllers\frontend\articles\ArticlesController;
 use App\Http\Controllers\frontend\projects\ProjectsController as ProjectsProjectsController;
 use App\Http\Controllers\frontend\services\ServicesController as ServicesServicesController;
 use App\Http\Controllers\frontend\testimonials\TestimonialsController as TestimonialsTestimonialsController;
+use App\Http\Controllers\OurTeamController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -67,4 +68,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/testimonials/{id}',[TestimonialsController::class, 'show']);
     Route::delete('/testimonials/{id}',[TestimonialsController::class, 'destroy']);
 
+    //Our team routes
+    Route::post('/members', [OurTeamController::class, 'store']);
 });
