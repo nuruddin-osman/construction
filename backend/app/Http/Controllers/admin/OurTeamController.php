@@ -125,7 +125,21 @@ class OurTeamController extends Controller
         }
         return response()->json([
             'status'=> true,
-            'data'=> 'team members successfully updated'
+            'message'=> 'team members successfully updated'
+        ]);
+    }
+
+    public function show($id){
+        $member = OurTeam::find($id);
+        if ($member == null) {
+            return response()->json([
+                'status'=> false,
+                'errors'=> 'team members items is not found'
+            ]);
+        }
+        return response()->json([
+            'status'=> true,
+            'data'=> $member
         ]);
     }
 }
