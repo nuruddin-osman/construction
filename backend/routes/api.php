@@ -71,4 +71,5 @@ Route::middleware('auth:sanctum')->group(function () {
     //Our team routes
     Route::post('/members', [OurTeamController::class, 'store']);
     Route::get('/members', [OurTeamController::class, 'index']);
+    Route::put('/members/{id}', [OurTeamController::class, 'update']);
 });
