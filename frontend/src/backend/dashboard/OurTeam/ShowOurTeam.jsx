@@ -36,7 +36,10 @@ const ShowOurTeam = () => {
             <div className="main_part shadow p-3">
               <div className="servies_header py-2">
                 <h4>Services ducumantation</h4>
-                <Link to="/admin/services/create" className="btn btn-primary">
+                <Link
+                  to="/admin/team-members/create"
+                  className="btn btn-primary"
+                >
                   Create
                 </Link>
               </div>
