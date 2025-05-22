@@ -12,7 +12,22 @@ use Intervention\Image\ImageManager;
 
 class OurTeamController extends Controller
 {
-        public function store(Request $request){
+    public function index(){
+        $members  = OurTeam::orderBy('created_at', 'DESC')->get();
+
+        if ($members == null) {
+            return response()->json([
+                'status'=> false,
+                'errors'=> "Our team members is not found"
+            ]);
+        }
+        return response()->json([
+            'status'=> true,
+            'message'=> "Our team members successfully fetched",
+            "data"=> $members
+        ]);
+    }
+    public function store(Request $request){
         $validation = Validator::make($request->all(),[
             'name'=> 'required'
         ]);
