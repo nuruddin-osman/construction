@@ -73,4 +73,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/members', [OurTeamController::class, 'index']);
     Route::put('/members/{id}', [OurTeamController::class, 'update']);
     Route::get('/members/{id}', [OurTeamController::class, 'show']);
+    Route::delete('/members/{id}', [OurTeamController::class, 'destroy']);
 });

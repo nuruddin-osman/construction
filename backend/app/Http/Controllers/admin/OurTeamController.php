@@ -142,4 +142,21 @@ class OurTeamController extends Controller
             'data'=> $member
         ]);
     }
+    public function destroy($id){
+        $member = OurTeam::find($id);
+        if ($member == null) {
+            return response()->json([
+                'status'=> false,
+                'errors'=> 'team members items is not found'
+            ]);
+        }
+
+        File::delete(public_path('uploads/our_team/'.$member->image));
+        $member->delete();
+
+        return response()->json([
+            'status'=> true,
+            'message'=> "this item  is successfuly delete"
+        ]);
+    }
 }
