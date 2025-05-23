@@ -22,4 +22,23 @@ class OurteamController extends Controller
             'data'=>$members
         ]);
     }
+
+    public function latest(Request $request){
+        $members = OurTeam::where('status',1)
+        ->orderBy('created_at','DESC')
+        ->take($request->get('limit'))
+        ->get();
+
+        if ($members == null) {
+            return response()->json([
+                "status"=>false,
+                'errors'=> 'our team members is not found'
+            ]);
+        }
+        return response()->json([
+            "status"=>true,
+            'message'=> 'success',
+            'data'=>$members
+        ]);
+    }
 }

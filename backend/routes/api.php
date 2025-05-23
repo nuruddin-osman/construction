@@ -32,6 +32,7 @@ Route::get("get-testimonials", [TestimonialsTestimonialsController::class, 'inde
 Route::get("latest-testimonials", [TestimonialsTestimonialsController::class, 'latestItem']);
 
 Route::get("get-members", [OurteamOurteamController::class, 'index']);
+Route::get("latest-members", [OurteamOurteamController::class, 'latest']);
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
