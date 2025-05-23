@@ -8,7 +8,8 @@ import { apiUrl, imageUrl, token } from "../common/Http";
 import { toast } from "react-toastify";
 
 const EditOurTeam = () => {
-  const [datas, setDatas] = useState("");
+  const [datas, setDatas] = useState([]);
+  const [imageId, setImageId] = useState(null);
   const navigate = useNavigate();
   const params = useParams();
   const {
@@ -38,9 +39,9 @@ const EditOurTeam = () => {
       }
     },
   });
-  console.log(datas);
 
   const onSubmit = async (data) => {
+    const newData = { ...data, imageId: imageId };
     const res = await fetch(apiUrl + "members/" + params.id, {
       method: "PUT",
       headers: {
@@ -48,7 +49,7 @@ const EditOurTeam = () => {
         Accept: "application/json",
         Authorization: `bearer ${token()}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(newData),
     });
     const result = await res.json();
     if (result.status == true) {
@@ -59,8 +60,23 @@ const EditOurTeam = () => {
     }
   };
 
-  const handleFile = (e) => {
+  const handleFile = async (e) => {
     const fileObject = new FormData();
+    const file = e.target.files[0];
+    fileObject.append("image", file);
+
+    await fetch(apiUrl + "temp-image", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `bearer ${token()}`,
+      },
+      body: fileObject,
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        setImageId(result.data.id);
+      });
   };
   return (
     <>
