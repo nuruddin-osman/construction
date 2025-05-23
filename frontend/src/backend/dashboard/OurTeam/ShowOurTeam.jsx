@@ -67,7 +67,7 @@ const ShowOurTeam = () => {
                           <td>
                             <div className="td_action">
                               <Link
-                                to={`/admin/services/edit/${item.id}`}
+                                to={`/admin/team-members/edit/${item.id}`}
                                 className="btn-small"
                               >
                                 edit
