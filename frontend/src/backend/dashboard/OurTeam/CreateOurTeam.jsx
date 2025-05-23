@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 
 const CreateOurTeam = () => {
   const [imageId, setImageId] = useState("");
+  const [link, setLink] = useState(false);
 
   const navigate = useNavigate();
   const {
@@ -60,6 +61,16 @@ const CreateOurTeam = () => {
         }
       });
   };
+
+  const checkValue = (e) => {
+    const check = e.target.checked;
+    if (check === true) {
+      setLink(true);
+    } else {
+      setLink(false);
+    }
+  };
+
   return (
     <>
       <Navbars />
@@ -108,18 +119,23 @@ const CreateOurTeam = () => {
                       {...register("designation")}
                     />
                   </div>
-
-                  <div className="d-flex gap-3 align-items-center py-4">
-                    <label htmlFor="link">Link</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      id="link"
-                      name="link"
-                      placeholder="Please type your link"
-                      {...register("link")}
-                    />
+                  <div className="td_action">
+                    <span>do you show link?</span>
+                    <input onChange={checkValue} type="checkbox" />
                   </div>
+                  {link && (
+                    <div className="d-flex gap-3 align-items-center py-4">
+                      <label htmlFor="link">Link</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        id="link"
+                        name="link"
+                        placeholder="Please type your link"
+                        {...register("link")}
+                      />
+                    </div>
+                  )}
 
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="image">Image</label>
