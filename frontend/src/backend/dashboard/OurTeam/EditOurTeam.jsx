@@ -1,19 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 import Footer from "../../../components/footer/Footer";
 import Navbars from "../../../components/navbar/Navbar";
 import Sidebar from "../sidebar/Index";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { apiUrl, imageUrl, token } from "../common/Http";
+import { toast } from "react-toastify";
 
 const EditOurTeam = () => {
+  const [datas, setDatas] = useState("");
+  const navigate = useNavigate();
+  const params = useParams();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: async () => {
+      const res = await fetch(apiUrl + "members/" + params.id, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `bearer ${token()}`,
+        },
+      });
+      const result = await res.json();
+      if (result.status == true) {
+        setDatas(result.data);
+        return {
+          name: result.data.name,
+          designation: result.data.designation,
+          link: result.data.link,
+          status: result.data.status,
+        };
+      }
+    },
+  });
+  console.log(datas);
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    const res = await fetch(apiUrl + "members/" + params.id, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `bearer ${token()}`,
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await res.json();
+    if (result.status == true) {
+      toast.success(result.message);
+      setTimeout(() => {
+        navigate("/admin/team-members");
+      }, 2000);
+    }
+  };
 
   const handleFile = (e) => {
     const fileObject = new FormData();
@@ -78,10 +122,19 @@ const EditOurTeam = () => {
                       {...register("link")}
                     />
                   </div>
-
                   <div className="d-flex gap-3 align-items-center py-4">
-                    <label htmlFor="image">Image</label>
-                    <input onChange={handleFile} type="file" />
+                    <div className="">
+                      <label htmlFor="image">Image</label>
+                      <input onChange={handleFile} type="file" />
+                    </div>
+                    <div className="servicesAdminImage">
+                      {datas.image && (
+                        <img
+                          src={imageUrl + "uploads/our_team/" + datas.image}
+                          alt={datas.image}
+                        />
+                      )}
+                    </div>
                   </div>
                   <div className="d-flex gap-3 align-items-center py-4">
                     <label htmlFor="status">Status</label>

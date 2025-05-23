@@ -33,7 +33,7 @@ const CreateOurTeam = () => {
     if (result.status == true) {
       toast.success(result.message);
       setTimeout(() => {
-        navigate("/admin/services");
+        navigate("/admin/team-members");
       }, 2000);
     }
   };
