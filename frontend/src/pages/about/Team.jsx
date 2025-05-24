@@ -34,12 +34,12 @@ const Team = () => {
         <div className="row">
           {members &&
             members.map((item) => (
-              <div className="col-md-3">
+              <div key={item.id} className="col-md-3">
                 <Card className="card_head shadow">
                   <Card.Img
                     variant="top"
                     className="card_image"
-                    src={imageUrl + "uploads/our_team/" + item.image}
+                    src={`${imageUrl}uploads/our_team/${item.image}`}
                   />
                   <Card.Body className="card_body">
                     <div className="card-title">

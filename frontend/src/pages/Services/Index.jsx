@@ -5,6 +5,7 @@ import Banner from "../../components/common/Banner";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { apiUrl, imageUrl } from "../../backend/dashboard/common/Http";
+import { Link } from "react-router-dom";
 
 const Services = () => {
   const [services, setServices] = useState();
@@ -57,7 +58,13 @@ const Services = () => {
                       <Card.Title>{item.title}</Card.Title>
                       <div className="service_content">
                         <Card.Text className="">{item.short_desc}</Card.Text>
-                        <Button variant="primary">Read more</Button>
+                        <Link
+                          to={`/services/${item.id}`}
+                          className="btn-small"
+                          variant="primary"
+                        >
+                          Read more
+                        </Link>
                       </div>
                     </Card.Body>
                   </Card>
@@ -66,7 +73,9 @@ const Services = () => {
           </div>
         </div>
         <div className="text-center">
-          <Button variant="primary">View more</Button>
+          <Link className="btn-primary" variant="primary">
+            View more
+          </Link>
         </div>
       </div>
       <Footer />

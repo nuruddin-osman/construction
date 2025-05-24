@@ -28,6 +28,7 @@ import EditTestimonials from "./backend/dashboard/testimonials/EditTestimonials"
 import ShowOurTeam from "./backend/dashboard/OurTeam/ShowOurTeam";
 import CreateOurTeam from "./backend/dashboard/OurTeam/CreateOurTeam";
 import EditOurTeam from "./backend/dashboard/OurTeam/EditOurTeam";
+import SingleServices from "./pages/Services/SingleServices";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/services/:id" element={<SingleServices />} />
         <Route path="/projects" element={<Project />} />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/contacts" element={<Contacts />} />
