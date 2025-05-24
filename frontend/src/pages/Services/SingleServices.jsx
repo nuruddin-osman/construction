@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import Navbars from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import Banner from "../../components/common/Banner";
-import { apiUrl } from "../../backend/dashboard/common/Http";
-import { Link } from "react-router-dom";
+import { apiUrl, imageUrl } from "../../backend/dashboard/common/Http";
+import { Link, useParams } from "react-router-dom";
 
 const SingleServices = () => {
   const [services, setServices] = useState([]);
-  const fetchApi = async () => {
+  const [service, setService] = useState([]);
+  const params = useParams();
+  const fetchServices = async () => {
     const res = await fetch(`${apiUrl}get-services`, {
       method: "GET",
     });
@@ -16,16 +18,26 @@ const SingleServices = () => {
       setServices(result.data);
     }
   };
+  const fetchService = async () => {
+    const res = await fetch(`${apiUrl}latest-one-services/${params.id}`, {
+      method: "GET",
+    });
+    const result = await res.json();
+    if (result.status == true) {
+      setService(result.data);
+    }
+  };
   useEffect(() => {
-    fetchApi();
-  }, []);
+    fetchServices();
+    fetchService();
+  }, [params.id]);
   return (
     <>
       <Navbars />
       <Banner
         sub_heading="Quality. Integrity. Value."
-        heading="Services"
-        para="We excel at transforming visions into reality <br/> through outstanding craftsmanship and precise."
+        heading={service.title}
+        para={service.short_desc}
       />
       <section class="section-10">
         <div class="container py-5">
@@ -47,19 +59,16 @@ const SingleServices = () => {
             </div>
             <div class="col-md-9">
               <div className="w-100">
-                <img className="w-100" src="" alt="asdfasdf" />
+                {service.image && (
+                  <img
+                    className="w-100"
+                    src={`${imageUrl}uploads/services/large/${service.image}`}
+                    alt="asdfasdf"
+                  />
+                )}
               </div>
-              <h3 class="py-3">Specialty Construction</h3>
-              <div>
-                <p>
-                  Specialty construction is precision. This sector covers a wide
-                  range of construction activities, including historic
-                  preservation, seismic retrofitting, custom-designed
-                  structures, and the installation of specialized systems in
-                  buildings.
-                </p>
-                <h3></h3>
-              </div>
+              <h3 class="py-3">{service.title}</h3>
+              <div dangerouslySetInnerHTML={{ __html: service.description }} />
             </div>
           </div>
         </div>

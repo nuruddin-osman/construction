@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/authenticate',[AuthenticationController::class, 'authenticate']);
 Route::get('/get-services',[ServicesServicesController::class, 'index']);
 Route::get('/limit-services',[ServicesServicesController::class, 'limitedServices']);
+Route::get('/latest-one-services/{id}',[ServicesServicesController::class, 'latestOne']);
 
 Route::get('get-projects',[ProjectsProjectsController::class, 'index']);
 Route::get("get-latest-projects", [ProjectsProjectsController::class, 'latestProjects']);
