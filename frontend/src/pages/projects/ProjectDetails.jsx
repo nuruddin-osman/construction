@@ -1,44 +1,33 @@
 import React, { useEffect, useState } from "react";
-import Navbars from "../../components/navbar/Navbar";
-import Footer from "../../components/footer/Footer";
-import Banner from "../../components/common/Banner";
-import { apiUrl, imageUrl } from "../../backend/dashboard/common/Http";
-import { Link, useParams } from "react-router-dom";
 import Testimonials from "../home/Testimonials";
+import Footer from "../../components/footer/Footer";
+import { Link, useParams } from "react-router-dom";
+import Banner from "../../components/common/Banner";
+import Navbars from "../../components/navbar/Navbar";
+import { apiUrl, imageUrl } from "../../backend/dashboard/common/Http";
 
-const SingleServices = () => {
-  const [services, setServices] = useState([]);
-  const [service, setService] = useState([]);
+const ProjectDetails = () => {
+  const [project, setProject] = useState([]);
   const params = useParams();
-  const fetchServices = async () => {
-    const res = await fetch(`${apiUrl}get-services`, {
+  const fetchProject = async () => {
+    const res = await fetch(`${apiUrl}latest-one-projects/${params.id}`, {
       method: "GET",
     });
     const result = await res.json();
     if (result.status == true) {
-      setServices(result.data);
-    }
-  };
-  const fetchService = async () => {
-    const res = await fetch(`${apiUrl}latest-one-services/${params.id}`, {
-      method: "GET",
-    });
-    const result = await res.json();
-    if (result.status == true) {
-      setService(result.data);
+      setProject(result.data);
     }
   };
   useEffect(() => {
-    fetchServices();
-    fetchService();
-  }, [params.id]);
+    fetchProject();
+  }, []);
   return (
     <>
       <Navbars />
       <Banner
         sub_heading="Quality. Integrity. Value."
-        heading={service.title}
-        para={service.short_desc}
+        heading={project.title}
+        para={project.short_desc}
       />
       <section class="section-10">
         <div class="container py-5">
@@ -46,30 +35,36 @@ const SingleServices = () => {
             <div class="col-md-3">
               <div class="card shadow border-0 sidebar">
                 <div class="card-body px-4 py-4">
-                  <h3 class="mt-2 mb-3">Our Services</h3>
+                  <h3 class="mt-2 mb-3">Insights</h3>
                   <ul>
-                    {services &&
-                      services.map((item) => (
-                        <li key={item.id}>
-                          <Link to={`/services/${item.id}`}>{item.title}</Link>
-                        </li>
-                      ))}
+                    <li>
+                      <span>Location</span>
+                      <h6>{project.location}</h6>
+                    </li>
+                    <li>
+                      <span>Construction type</span>
+                      <h6>{project.construction_type}</h6>
+                    </li>
+                    <li>
+                      <span>Sector</span>
+                      <h6>{project.sector}</h6>
+                    </li>
                   </ul>
                 </div>
               </div>
             </div>
             <div class="col-md-9">
               <div className="w-100">
-                {service.image && (
+                {project.image && (
                   <img
                     className="w-100"
-                    src={`${imageUrl}uploads/services/large/${service.image}`}
+                    src={`${imageUrl}uploads/projects/large/${project.image}`}
                     alt="asdfasdf"
                   />
                 )}
               </div>
-              <h3 class="py-3">{service.title}</h3>
-              <div dangerouslySetInnerHTML={{ __html: service.description }} />
+              <h3 class="py-3">{project.title}</h3>
+              <div dangerouslySetInnerHTML={{ __html: project.description }} />
             </div>
           </div>
         </div>
@@ -88,4 +83,4 @@ const SingleServices = () => {
   );
 };
 
-export default SingleServices;
+export default ProjectDetails;

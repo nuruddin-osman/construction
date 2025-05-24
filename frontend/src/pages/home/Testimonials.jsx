@@ -40,7 +40,7 @@ const Testimonials = () => {
         <div className="">
           <Swiper
             modules={[Navigation, Pagination, Scrollbar, A11y]}
-            spaceBetween={50}
+            spaceBetween={30}
             slidesPerView={1}
             pagination={{ clickable: true }}
             // navigation

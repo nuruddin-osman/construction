@@ -5,6 +5,7 @@ import Navbars from "../../components/navbar/Navbar";
 import Banner from "../../components/common/Banner";
 import Footer from "../../components/footer/Footer";
 import { apiUrl, imageUrl } from "../../backend/dashboard/common/Http";
+import { Link } from "react-router-dom";
 
 const Project = () => {
   const [projects, setProjects] = useState();
@@ -56,7 +57,13 @@ const Project = () => {
                       <Card.Title>{item.title}</Card.Title>
                       <div className="service_content">
                         <Card.Text className="">{item.short_desc}</Card.Text>
-                        <Button variant="primary">Read more</Button>
+                        <Link
+                          to={`/project/${item.id}`}
+                          className="btn-small"
+                          variant="primary"
+                        >
+                          Read more
+                        </Link>
                       </div>
                     </Card.Body>
                   </Card>

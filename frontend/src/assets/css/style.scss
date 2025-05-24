@@ -64,6 +64,9 @@ $bs-light-border-subtle: #e9ecef;
 $bs-dark-border-subtle: #adb5bd;
 $bs-white-rgb: 255, 255, 255;
 $bs-black-rgb: 0, 0, 0;
+.bg_gary {
+  background-color: $bs-primary-bg-subtle;
+}
 
 * {
   margin: 0;

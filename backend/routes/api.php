@@ -25,6 +25,7 @@ Route::get('/latest-one-services/{id}',[ServicesServicesController::class, 'late
 
 Route::get('get-projects',[ProjectsProjectsController::class, 'index']);
 Route::get("get-latest-projects", [ProjectsProjectsController::class, 'latestProjects']);
+Route::get("latest-one-projects/{id}", [ProjectsProjectsController::class, 'latestOne']);
 
 Route::get("get-articles", [ArticlesController::class, 'index']);
 Route::get("latest-articles", [ArticlesController::class, 'latestItem']);
