@@ -30,6 +30,7 @@ import CreateOurTeam from "./backend/dashboard/OurTeam/CreateOurTeam";
 import EditOurTeam from "./backend/dashboard/OurTeam/EditOurTeam";
 import SingleServices from "./pages/Services/SingleServices";
 import ProjectDetails from "./pages/projects/ProjectDetails";
+import BlogDetails from "./pages/blogs/BlogDetails";
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
         <Route path="/projects" element={<Project />} />
         <Route path="/project/:id" element={<ProjectDetails />} />
         <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogs/:id" element={<BlogDetails />} />
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/admin/login" element={<Login />} />
         <Route

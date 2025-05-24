@@ -41,4 +41,19 @@ class ArticlesController extends Controller
             'data'=> $articles
         ]);
     }
+    public function latestOne($id){
+        $articles = Article::find($id);
+
+        if ($articles == null) {
+            return response()->json([
+                'status'=>false,
+                'errors'=>"items is not found",
+            ]);
+        }
+        return response()->json([
+            'status'=>true,
+            'message'=>"success",
+            'data'=> $articles
+        ]);
+    }
 }

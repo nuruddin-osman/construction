@@ -1,62 +1,68 @@
 import React, { useEffect, useState } from "react";
-import BlogsImg from "../../../public/assets/images/engineer-4925140_1280.jpg";
 import { apiUrl, imageUrl } from "../../backend/dashboard/common/Http";
+import Navbars from "../../components/navbar/Navbar";
+import Banner from "../../components/common/Banner";
+import MoreBlogs from "./MoreBlogs";
+import Footer from "../../components/footer/Footer";
+import { useParams } from "react-router-dom";
+
 const BlogDetails = () => {
-  const [articles, setArticles] = useState([]);
+  const [article, setArticle] = useState([]);
+  const params = useParams();
   const fetchApi = async () => {
-    const res = await fetch(apiUrl + "latest-articles?limit=1", {
+    const res = await fetch(`${apiUrl}latest-one-articles/${params.id}`, {
       method: "GET",
     });
     const result = await res.json();
     if (result.status == true) {
-      setArticles(result.data[0]);
+      setArticle(result.data);
     }
   };
+
   useEffect(() => {
     fetchApi();
-  }, []);
+  }, [params.id]);
 
   return (
-    <div>
-      <h2>Key Elements of Civil Construction within the construction</h2>
-      <span>by Mark on 01 Feb, 2025</span>
-      <div className="w-100 mt-3">
-        <img
-          className="w-100 "
-          src={
-            articles.image &&
-            `${imageUrl}uploads/articles/large/${articles.image}`
-          }
-          alt="Blogs Img"
-        />
+    <>
+      <Navbars />
+      <Banner
+        sub_heading="Quality. Integrity. Value."
+        heading={article.title}
+      />
+      <div className="container py-5">
+        <div className="row">
+          <div className="col-md-8">
+            <div>
+              <h2>{article.title}</h2>
+              <p>
+                by <strong>{article.author}</strong> on {article.created_at}
+              </p>
+              <div className="w-100 mt-3">
+                <img
+                  className="w-100 "
+                  src={
+                    article.image &&
+                    `${imageUrl}uploads/articles/large/${article.image}`
+                  }
+                  alt="Blogs Img"
+                />
+              </div>
+              <div
+                className="mt-3"
+                dangerouslySetInnerHTML={{
+                  __html: article.content,
+                }}
+              ></div>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <MoreBlogs />
+          </div>
+        </div>
       </div>
-      <div className="mt-3">
-        <article>{articles.title}</article>
-        <br />
-        <article>
-          Civil construction projects are often large-scale and involve complex
-          engineering and logistical challenges. These projects require
-          extensive planning and collaboration among engineers, architects,
-          government agencies, and construction firms. The construction process
-          typically begins with site surveys, environmental impact assessments,
-          and the design of the project, followed by site preparation and the
-          construction of the necessary structures. Due to the critical nature
-          of these projects, safety, durability, and sustainability are key
-          considerations throughout the construction process.
-        </article>
-        <br />
-        <article>
-          One of the defining characteristics of civil construction is its focus
-          on public works and infrastructure that serve the broader community.
-          These projects often have long lifespans and must be designed to
-          withstand the elements, heavy use, and changing environmental
-          conditions. Advances in technology and materials have led to the
-          development of more efficient and sustainable construction methods,
-          helping to reduce costs, minimize environmental impact, and extend the
-          lifespan of civil infrastructure.
-        </article>
-      </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

@@ -29,6 +29,7 @@ Route::get("latest-one-projects/{id}", [ProjectsProjectsController::class, 'late
 
 Route::get("get-articles", [ArticlesController::class, 'index']);
 Route::get("latest-articles", [ArticlesController::class, 'latestItem']);
+Route::get("latest-one-articles/{id}", [ArticlesController::class, 'latestOne']);
 
 Route::get("get-testimonials", [TestimonialsTestimonialsController::class, 'index']);
 Route::get("latest-testimonials", [TestimonialsTestimonialsController::class, 'latestItem']);
