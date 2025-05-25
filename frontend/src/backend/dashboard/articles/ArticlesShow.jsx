@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 const ArticlesShow = () => {
   const [articles, setArticles] = useState(null);
   const fetchApi = async () => {
-    const res = await fetch(apiUrl + "article", {
+    const res = await fetch(`${apiUrl}article`, {
       method: "GET",
       headers: {
         "content-type": "application/json",
@@ -29,7 +29,7 @@ const ArticlesShow = () => {
 
   const handleDelete = async (id) => {
     if (confirm("Are you sure this item is delete")) {
-      const res = await fetch(apiUrl + "article/" + id, {
+      const res = await fetch(`${apiUrl}article/${id}`, {
         method: "DELETE",
         headers: {
           Accept: "application/json",

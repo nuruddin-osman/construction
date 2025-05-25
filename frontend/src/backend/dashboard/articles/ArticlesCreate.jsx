@@ -17,6 +17,7 @@ const ArticlesCreate = ({ placeholder }) => {
     () => ({
       readonly: false, // all options from https://xdsoft.net/jodit/docs/,
       placeholder: placeholder || "",
+      askBeforePasteHTML: false,
     }),
     [placeholder]
   );
@@ -34,7 +35,7 @@ const ArticlesCreate = ({ placeholder }) => {
       headers: {
         "content-type": "application/json",
         Accept: "application/json",
-        Authorization: `bearer ${token()}`,
+        Authorization: `Bearer ${token()}`,
       },
       body: JSON.stringify(newData),
     });
@@ -55,7 +56,7 @@ const ArticlesCreate = ({ placeholder }) => {
       method: "POST",
       headers: {
         Accept: "application/json",
-        Authorization: `bearer ${token()}`,
+        Authorization: `Bearer ${token()}`,
       },
       body: fileObject,
     })

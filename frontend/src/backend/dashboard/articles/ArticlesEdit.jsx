@@ -31,7 +31,7 @@ const ArticlesEdit = ({ placeholder }) => {
     formState: { errors },
   } = useForm({
     defaultValues: async () => {
-      const res = await fetch(apiUrl + "article/" + params.id, {
+      const res = await fetch(`${apiUrl}article/${params.id}`, {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -55,7 +55,7 @@ const ArticlesEdit = ({ placeholder }) => {
 
   const onSubmit = async (data) => {
     const newData = { ...data, content: content, imageId: imageId };
-    const res = await fetch(apiUrl + "article/" + params.id, {
+    const res = await fetch(`${apiUrl}article/${params.id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -78,7 +78,7 @@ const ArticlesEdit = ({ placeholder }) => {
     const file = e.target.files[0];
     fileObject.append("image", file);
 
-    await fetch(apiUrl + "temp-image", {
+    await fetch(`${apiUrl}temp-image`, {
       method: "POST",
       headers: {
         Accept: "application/json",
