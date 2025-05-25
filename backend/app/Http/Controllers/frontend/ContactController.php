@@ -31,5 +31,10 @@ class ContactController extends Controller
         ];
 
         Mail::to("admin@example.com")->send(new ContactEmail($mailData));
+
+        return response()->json([
+            "status"=> true,
+            "errors"=> "email send success"
+        ]);
     }
 }

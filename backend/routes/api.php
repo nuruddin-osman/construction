@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\TempImageController;
 use App\Http\Controllers\admin\TestimonialsController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\frontend\articles\ArticlesController;
+use App\Http\Controllers\frontend\ContactController;
 use App\Http\Controllers\frontend\ourteam\OurteamController as OurteamOurteamController;
 use App\Http\Controllers\frontend\projects\ProjectsController as ProjectsProjectsController;
 use App\Http\Controllers\frontend\services\ServicesController as ServicesServicesController;
@@ -23,19 +24,21 @@ Route::get('/get-services',[ServicesServicesController::class, 'index']);
 Route::get('/limit-services',[ServicesServicesController::class, 'limitedServices']);
 Route::get('/latest-one-services/{id}',[ServicesServicesController::class, 'latestOne']);
 
-Route::get('get-projects',[ProjectsProjectsController::class, 'index']);
-Route::get("get-latest-projects", [ProjectsProjectsController::class, 'latestProjects']);
-Route::get("latest-one-projects/{id}", [ProjectsProjectsController::class, 'latestOne']);
+Route::get('/get-projects',[ProjectsProjectsController::class, 'index']);
+Route::get("/get-latest-projects", [ProjectsProjectsController::class, 'latestProjects']);
+Route::get("/latest-one-projects/{id}", [ProjectsProjectsController::class, 'latestOne']);
 
-Route::get("get-articles", [ArticlesController::class, 'index']);
-Route::get("latest-articles", [ArticlesController::class, 'latestItem']);
-Route::get("latest-one-articles/{id}", [ArticlesController::class, 'latestOne']);
+Route::get("/get-articles", [ArticlesController::class, 'index']);
+Route::get("/latest-articles", [ArticlesController::class, 'latestItem']);
+Route::get("l/atest-one-articles/{id}", [ArticlesController::class, 'latestOne']);
 
-Route::get("get-testimonials", [TestimonialsTestimonialsController::class, 'index']);
-Route::get("latest-testimonials", [TestimonialsTestimonialsController::class, 'latestItem']);
+Route::get("/get-testimonials", [TestimonialsTestimonialsController::class, 'index']);
+Route::get("/latest-testimonials", [TestimonialsTestimonialsController::class, 'latestItem']);
 
-Route::get("get-members", [OurteamOurteamController::class, 'index']);
-Route::get("latest-members", [OurteamOurteamController::class, 'latest']);
+Route::get("/get-members", [OurteamOurteamController::class, 'index']);
+Route::get("/latest-members", [OurteamOurteamController::class, 'latest']);
+
+Route::post("/contact-mail", [ContactController::class, 'index']);
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
