@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Banner from "../../components/common/Banner";
 import Navbars from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { useForm } from "react-hook-form";
 import { apiUrl } from "../../backend/dashboard/common/Http";
 import { toast } from "react-toastify";
+import { BeatLoader } from "react-spinners";
 
 const Contacts = () => {
+  let [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -16,6 +18,7 @@ const Contacts = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    setLoading(true);
     const res = await fetch(`${apiUrl}contact-mail`, {
       method: "POST",
       headers: {
@@ -27,6 +30,7 @@ const Contacts = () => {
     if (result.status == true) {
       toast.success(result.message);
       reset();
+      setLoading(false);
     } else {
       toast.error(result.errors);
     }
@@ -165,8 +169,13 @@ const Contacts = () => {
                       {...register("message")}
                     ></textarea>
                   </div>
-                  <button type="submit" className="btn btn-primary large mt-3">
-                    Submit
+                  <button
+                    type="submit"
+                    className={`btn btn-primary large mt-3 ${
+                      loading && "pt-3"
+                    }`}
+                  >
+                    {loading ? <BeatLoader /> : "Submit"}
                   </button>
                 </form>
               </div>
