@@ -2,8 +2,35 @@ import React from "react";
 import Banner from "../../components/common/Banner";
 import Navbars from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
+import { useForm } from "react-hook-form";
+import { apiUrl } from "../../backend/dashboard/common/Http";
+import { toast } from "react-toastify";
 
 const Contacts = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    const res = await fetch(`${apiUrl}contact-mail`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await res.json();
+    if (result.status == true) {
+      toast.success(result.message);
+      reset();
+    } else {
+      toast.error(result.errors);
+    }
+  };
   return (
     <div>
       <Navbars />
@@ -21,9 +48,9 @@ const Contacts = () => {
           </p>
           <div className="row">
             <div className="col-md-3">
-              <div class="card-body shadow p-4">
-                <h3 class="mb-3">Call Us</h3>
-                <div class="mb-3">
+              <div className="card-body shadow p-4">
+                <h3 className="mb-3">Call Us</h3>
+                <div className="mb-3">
                   <div>
                     <a href="#">(888) 000-0000</a>
                   </div>
@@ -32,8 +59,8 @@ const Contacts = () => {
                   </div>
                 </div>
 
-                <h3 class="mt-4 mb-3">You can write us</h3>
-                <div class="mb-3">
+                <h3 className="mt-4 mb-3">You can write us</h3>
+                <div className="mb-3">
                   <div>
                     <a href="#">example@example.com</a>
                   </div>
@@ -42,8 +69,8 @@ const Contacts = () => {
                   </div>
                 </div>
 
-                <h3 class="mt-4 mb-3">Address</h3>
-                <div class="mb-3">
+                <h3 className="mt-4 mb-3">Address</h3>
+                <div className="mb-3">
                   B-18X, Rajaji Puram
                   <br />
                   Lucknow, Uttar Pradesh, 226017
@@ -53,58 +80,80 @@ const Contacts = () => {
               </div>
             </div>
             <div className="col-md-9">
-              <div class="card-body shadow p-5">
-                <form>
-                  <div class="row">
-                    <div class="col-md-6 mb-4">
-                      <label for="" class="form-label">
+              <div className="card-body shadow p-5">
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <div className="row">
+                    <div className="col-md-6 mb-4">
+                      <label htmlFor="name" className="form-label">
                         Name
                       </label>
                       <input
                         type="text"
                         name="name"
-                        class="form-control form-control-lg undefined"
+                        className={`form-control form-control-lg undefined ${
+                          errors.name ? "is-invalid" : ""
+                        }`}
                         placeholder="Enter Name"
+                        {...register("name", {
+                          required: "the name failds is required",
+                        })}
                       />
                     </div>
-                    <div class="col-md-6 mb-4">
-                      <label for="" class="form-label">
+                    {errors.name && (
+                      <p className="invalid-feedback">{errors.name.message}</p>
+                    )}
+                    <div className="col-md-6 mb-4">
+                      <label htmlFor="email" className="form-label">
                         Email
                       </label>
                       <input
-                        type="text"
+                        type="email"
                         name="email"
-                        class="form-control form-control-lg undefined"
                         placeholder="Enter Email"
+                        className={`form-control form-control-lg undefined ${
+                          errors.email ? "is-invalid" : ""
+                        }`}
+                        {...register("email", {
+                          required: true,
+                          pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Please enter a valid email address",
+                          },
+                        })}
                       />
                     </div>
+                    {errors.email && (
+                      <p className="invalid-feedback">{errors.email.message}</p>
+                    )}
                   </div>
-                  <div class="row">
-                    <div class="col-md-6 mb-4">
-                      <label for="" class="form-label">
+                  <div className="row">
+                    <div className="col-md-6 mb-4">
+                      <label htmlFor="phone" className="form-label">
                         Phone
                       </label>
                       <input
                         type="text"
                         name="phone"
-                        class="form-control form-control-lg"
+                        className="form-control form-control-lg"
                         placeholder="Phone No."
+                        {...register("phone")}
                       />
                     </div>
-                    <div class="col-md-6 mb-4">
-                      <label for="" class="form-label">
+                    <div className="col-md-6 mb-4">
+                      <label htmlFor="subject" className="form-label">
                         Subject
                       </label>
                       <input
                         type="text"
                         name="subject"
-                        class="form-control form-control-lg"
+                        className="form-control form-control-lg"
                         placeholder="Subject"
+                        {...register("subject")}
                       />
                     </div>
                   </div>
                   <div>
-                    <label for="" class="form-label">
+                    <label htmlFor="message" className="form-label">
                       Message
                     </label>
                     <textarea
@@ -112,10 +161,13 @@ const Contacts = () => {
                       placeholder="Message"
                       rows="5"
                       id=""
-                      class="form-control form-control-lg"
+                      className="form-control form-control-lg"
+                      {...register("message")}
                     ></textarea>
                   </div>
-                  <button class="btn btn-primary large mt-3">Submit</button>
+                  <button type="submit" className="btn btn-primary large mt-3">
+                    Submit
+                  </button>
                 </form>
               </div>
             </div>

@@ -34,7 +34,7 @@ class ContactController extends Controller
 
         return response()->json([
             "status"=> true,
-            "success"=> "email send success",
+            "message"=> "email send success",
             "data"=> $mailData
         ]);
     }
