@@ -8,12 +8,12 @@
 </head>
 <body>
     <h2>You have recieved an email</h2>
-    <p>Name: {{$mailData['name']}}</p>
-    <p>email: {{$mailData['email']}}</p>
-    <p>Phone: {{$mailData['phone']}}</p>
-    <p>Subject: {{$mailData['subject']}}</p>
+    <p>Name: {{ $mailData['name'] ?? 'N/A' }}</p>
+    <p>Email: {{ $mailData['email'] ?? 'N/A' }}</p>
+    <p>Phone: {{ $mailData['phone'] ?? 'N/A' }}</p>
+    <p>Subject: {{ $mailData['subject'] ?? 'N/A' }}</p>
     <p>message:</p>
-    <p>{{$mailData['message']}}</p>
+    <p>Message: {{ $mailData['message'] ?? 'N/A' }}</p>
 
     <p>thanks</p>
 </body>
